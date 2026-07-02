@@ -1,0 +1,25 @@
+# feature-dependency.yaml
+# LLMGPのfeature一覧・開発順・依存関係を定義する。
+# feature-partitioning提案（stages/feature-partitioning/2026-07-02-proposal.md）の承認結果を反映。
+
+feature_order:
+  - "term-representation"
+  - "term-variation-operators"
+  - "equation-fitting"
+  - "evolution-loop-and-selection"
+  - "term-importance"
+
+features:
+  "term-variation-operators":
+    depends_on:
+      "term-representation": hard
+  "equation-fitting":
+    depends_on:
+      "term-representation": hard
+  "evolution-loop-and-selection":
+    depends_on:
+      "term-variation-operators": hard
+      "equation-fitting": hard
+  "term-importance":
+    depends_on:
+      "equation-fitting": hard
