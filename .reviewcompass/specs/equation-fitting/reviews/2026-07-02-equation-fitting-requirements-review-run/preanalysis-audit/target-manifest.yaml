@@ -1,0 +1,4 @@
+run_id: preanalysis-audit
+target_files:
+- path: .reviewcompass/specs/equation-fitting/reviews/2026-07-02-equation-fitting-requirements-review-run/preanalysis-audit-bundle.md
+  sha256: 99e6abbe5b0dd1370807991018da42f35cff24d767204eb16c52458b9aff287e

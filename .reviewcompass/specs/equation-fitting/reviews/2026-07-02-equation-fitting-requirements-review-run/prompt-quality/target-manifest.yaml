@@ -1,0 +1,6 @@
+run_id: prompt-quality
+target_files:
+- path: .reviewcompass/specs/equation-fitting/reviews/2026-07-02-equation-fitting-requirements-review-run/review-target.md
+  sha256: 232a9207d3d33a96bb6ff8c4aa946c475da63a8bf3e795116d2492a202139b19
+execution_spec_path: review-execution-spec.yaml
+execution_spec_sha256: 02f7c46e04057085c700274a89921f2309233c688d2ce74083718bc89c3cd68f

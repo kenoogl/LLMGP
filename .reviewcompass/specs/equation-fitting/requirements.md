@@ -52,7 +52,7 @@ DEの評価関数（目的関数。最適化で最小化を目指す値）は、
 ## 3. 非機能要件・制約
 
 - 実装言語はJulia（LLMSRのコードを参照する前提のため）
-- DEの実装は、LLMSR（`/Users/Daily/Development/WindTurbineWake/LLMSR`）が使用しているBlackBoxOptim.jl（Juliaの最適化ライブラリ）を参考にする。ただしL1罰則を評価関数へ加える仕組みはLLMSR側には存在しないため、新規に設計する（調査済み：LLMSR既存コードの評価関数はMSEに物理妥当性の罰則を加減算・乗算する形式のみで、係数を0に近づける正則化は含まれない）
+- DEの実装は、LLMSR（`/Users/Daily/Development/WindTurbineWake/LLMSR`）が使用しているBlackBoxOptim.jl（Juliaの最適化ライブラリ）を参考にする。ただしL1罰則を評価関数へ加える仕組みはLLMSR側には存在しないため、新規に設計する（調査済み：LLMSR既存コードの評価関数はMSEに物理妥当性の罰則を加算・乗算する形式のみで、係数を0に近づける正則化は含まれない）
 - DEのハイパーパラメータ（個体数、世代数上限、探索範囲、L1罰則の強さ係数など）の既定値はdesign段階で決める。LLMSR Phase5の値（個体数30、世代数上限200、DE手法de_rand_1_bin、スケーリング係数F=0.7、交叉率CR=0.9、探索範囲log-uniform 1e-4〜1e2）を参考値とする
 
 ## 4. スコープ外

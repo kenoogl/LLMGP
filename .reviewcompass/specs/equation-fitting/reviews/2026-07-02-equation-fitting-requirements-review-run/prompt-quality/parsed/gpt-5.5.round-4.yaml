@@ -1,0 +1,23 @@
+role: adversarial
+provider: openai-api
+model: gpt-5.5
+attempts: 1
+duration_seconds: 52.329
+findings:
+- severity: WARN
+  target_location: §1 Review Task
+  description: The main judgment framing ambiguously says equation-fitting must inherit
+    “normalized-weight importance,” even though §7 check 6 assigns importance scoring
+    to term-importance.
+  rationale: This could lead the API reviewer to require equation-fitting requirements
+    to own or restate importance-scoring behavior that the feature-partitioning boundary
+    says is out of scope. Later checks mostly correct the boundary, so the prompt
+    remains usable, but the primary framing should distinguish upstream project intent
+    from this feature’s responsibility.
+- severity: INFO
+  target_location: §6.1 intent/INTENT.md
+  description: The full upstream intent excerpt includes some background and project
+    goals not directly used by the eight required checks.
+  rationale: The prompt is still parser-friendly and sufficiently scoped, but trimming
+    or summarizing unrelated portions would better satisfy the minimum-review-relevant-material
+    principle and reduce distraction for the judge model.

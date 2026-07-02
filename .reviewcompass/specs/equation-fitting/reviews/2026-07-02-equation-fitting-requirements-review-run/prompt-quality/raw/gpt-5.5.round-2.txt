@@ -1,0 +1,9 @@
+findings:
+  - severity: WARN
+    target_location: "§3 User Review Requirements"
+    description: "The prompt states that the user approved the amended requirements draft, which is unnecessary framing for the judge."
+    rationale: "The review should independently evaluate the target against the stated transfer requirements. Mentioning approval of the same draft under review may subtly bias the model toward acceptance, even though the required checks and finding policy otherwise permit findings."
+  - severity: WARN
+    target_location: "§9 Finding Policy"
+    description: "The unsupported-addition rule is somewhat absolute and could over-report legitimate requirements elaboration as drift."
+    rationale: "Requiring an ERROR for any requirement not supported by upstream material does not explicitly distinguish impermissible scope drift from implementation-neutral elaboration needed to make requirements testable. This ambiguity could broaden the review into rejecting valid requirements-phase detail that is consistent with upstream intent."

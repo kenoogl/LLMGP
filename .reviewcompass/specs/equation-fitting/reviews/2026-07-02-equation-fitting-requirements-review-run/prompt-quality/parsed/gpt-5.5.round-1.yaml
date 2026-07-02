@@ -1,0 +1,23 @@
+role: adversarial
+provider: openai-api
+model: gpt-5.5
+attempts: 1
+duration_seconds: 27.584
+findings:
+- severity: WARN
+  target_location: §3.1 Upstream Structured Summary / responsibility_boundaries
+  description: Responsibility-boundary summary ambiguously says the target document's
+    own scope-out list is the source of truth.
+  rationale: For a vertical intent-transfer review, responsibility boundaries should
+    be checked against upstream intent and approved feature partitioning, not treated
+    as self-authorized by the target. Although §7 check 6 states the intended upstream
+    boundaries clearly, this phrasing could confuse the API judge or weaken transfer
+    checking.
+- severity: WARN
+  target_location: §6.6 LLMSR grounding evidence
+  description: The source-material excerpt includes an absolute local filesystem path
+    that may expose an unnecessary user/account identifier.
+  rationale: External API review prompts should minimize personal or environment-specific
+    details. The adjacent repository identity and relevant file paths are useful,
+    but the `/Users/Daily/...` prefix is not needed for the judgment and could be
+    redacted or replaced with a repository-relative provenance path.

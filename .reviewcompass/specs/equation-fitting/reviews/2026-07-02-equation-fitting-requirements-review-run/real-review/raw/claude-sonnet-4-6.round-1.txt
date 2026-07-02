@@ -1,0 +1,30 @@
+findings:
+  - severity: INFO
+    target_location: "§1 概要"
+    description: "The overview parenthetically defines 'linear combination' as '(それぞれ出力を正規化したうえで重みを掛けて足し合わせること)' — this embeds the normalization addition directly into the definition of linear combination, which is accurate and complete. No deficiency; noting as a positive traceability point."
+    rationale: "Check 1 (purpose_transfer): All three required elements — linear combination of multiple terms, joint DE optimization of all free coefficients, L1-like penalty on outer weights — are correctly stated in §1. The normalization rationale is also present. No omission or misattribution found."
+
+  - severity: INFO
+    target_location: "§2 FR3 受け入れ基準"
+    description: "FR3 explicitly states that setting the penalty-strength coefficient to zero reduces the evaluation function to pure MSE only. This correctly satisfies Check 3's reducibility requirement."
+    rationale: "Check 3 (l1_penalty_fidelity): The penalty is on the outer weights' absolute values, multiplied by a configurable coefficient, added to MSE. Setting that coefficient to zero yields pure MSE. Fully faithful to upstream intent."
+
+  - severity: WARN
+    target_location: "§2 FR1 受け入れ基準 (3rd and 4th bullets)"
+    description: "FR1 states that normalization must be re-derived at each DE evaluation because inner coefficients change during optimization, and that the concrete method is deferred to design. However, neither FR1 nor any other section specifies that the normalization is computed over the current dataset (i.e., evaluated over the same input data used for MSE). Without at least acknowledging that the normalization basis is applied over data points, the acceptance criterion is slightly underspecified: a reader could interpret 'その時点の項内部係数の値に基づいて' as covering only coefficient-dependence while leaving the data-dependence implicit."
+    rationale: "Check 5 (normalization_addition_consistency): The core directive is correctly specified — normalization before outer weight, must track current inner coefficients, deferred to design. The gap is minor: the normalization's dependence on data (not just coefficients) is not stated, creating a small ambiguity that could matter at the design stage. This does not constitute an outright omission of the directive, but it is an incompleteness worth flagging."
+
+  - severity: INFO
+    target_location: "§3 非機能要件・制約 (3rd bullet)"
+    description: "The LLMSR reference parameter values (NP=30, MaxSteps=200, de_rand_1_bin, F=0.7, CR=0.9, log-uniform 1e-4~1e2) are correctly labeled as '参考値' (reference values) for the design stage, not as binding requirements-stage decisions."
+    rationale: "Check 7 (deferred_items_not_invented): All three categories of deferred items — DE hyperparameter values, L1 penalty-strength default, concrete normalization method — are correctly deferred to design. The LLMSR values are cited with appropriate non-binding framing. No invented fixed decisions found."
+
+  - severity: INFO
+    target_location: "§4 スコープ外"
+    description: "All three required boundary exclusions are present: term-importance (weight normalization for importance scoring), term-variation-operators (generation/crossover/mutation), and evolution-loop-and-selection (elite selection and generation loop). The boundary is correctly transferred."
+    rationale: "Check 6 (boundary_transfer): No responsibilities of sibling features are implicitly claimed in the functional requirements, and all required scope-out entries are present."
+
+  - severity: INFO
+    target_location: "§3 非機能要件・制約 (2nd bullet)"
+    description: "The LLMSR grounding claim — that no L1/Lasso-style regularization exists in LLMSR, and that only MSE plus a physics-validity penalty appears in the evaluator — correctly matches §6.6 grounding evidence."
+    rationale: "Check 8 (llmsr_grounding_accuracy): The target's characterization of LLMSR is accurate. BlackBoxOptim.jl usage is correctly noted. No contradiction with §6.6 found."

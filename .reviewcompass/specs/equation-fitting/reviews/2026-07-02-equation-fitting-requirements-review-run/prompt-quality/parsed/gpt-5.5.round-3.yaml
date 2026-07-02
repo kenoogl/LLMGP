@@ -1,0 +1,24 @@
+role: adversarial
+provider: openai-api
+model: gpt-5.5
+attempts: 1
+duration_seconds: 63.57
+findings:
+- severity: WARN
+  target_location: §1 Review Task and §7 check 2
+  description: The review task says the target must faithfully inherit term-representation's
+    instruction-list structure without omission, while the required check only asks
+    compatibility with FR3/FR4.
+  rationale: This ambiguity could broaden the review into requiring equation-fitting
+    requirements to restate or own term-representation internals such as the instruction-list
+    model, instead of only remaining compatible with the upstream term interface.
+    Clarifying that restatement is not required would reduce false-positive findings.
+- severity: WARN
+  target_location: §4 Required Disciplines
+  description: The prompt tells the model to judge the target directly against the
+    full vertical-intent-transfer policy in addition to the enumerated checks.
+  rationale: Although the later required checks mostly operationalize the workflow
+    policy, this wording may invite broad or duplicate findings not tied to the intended
+    eight checks or the explicit unsupported-drift policy. Stating that §7 is the
+    operationalization of §4 would keep the review scope tighter and more parser/triage
+    friendly.
