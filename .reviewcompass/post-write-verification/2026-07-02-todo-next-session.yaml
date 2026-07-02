@@ -1,0 +1,16 @@
+status: "completed"
+target_files:
+  - "TODO_NEXT_SESSION.md"
+target_sha256:
+  "TODO_NEXT_SESSION.md": "df348742f0e82f778d05ed22afcc7991f3e2f05b549384887f35e7020fa3496f"
+required_verifiers:
+  - "lightweight_self_check"
+completed_verifiers:
+  - "lightweight_self_check"
+unresolved_substantive_findings: 0
+notes: >
+  TODO_NEXT_SESSION.md をテンプレートから実体化し、現在の到達点（term-representation・
+  term-variation-operators のrequirements段完了）と次作業（equation-fittingの
+  requirements drafting）を記録した。軽量自己精査（利用者指摘の反映漏れ、事実と方針の区別、
+  次セッションの判断材料としての十分性、作業範囲外の仕様化の有無、API review昇格の要否）を
+  実施し、いずれも問題なしと判断した。
