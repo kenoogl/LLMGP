@@ -1,0 +1,26 @@
+# .reviewcompass/config.yaml
+# 対象アプリ（LLMGP）側の ReviewCompass 設定。
+# runtime/config/config.yaml.template（ReviewCompass 配布物）から実体化。
+# 実体化日：2026-07-02
+# 実体化元：/Users/Daily/Development/WindTurbineWake/ReviewCompass
+#
+# アプリ側で上書きしたい項目だけを書く。明示しない項目はツール既定（reviewcompass.yaml）を使う。
+# role_models／default_phase_profile は未確定のため空欄のまま。運用開始時に利用者が指定する。
+
+# 役ごとのモデル識別子（アプリ側で使うモデルを指定）
+role_models:
+  primary_reviewer: ""
+  adversarial_reviewer: ""
+  judgment_reviewer: ""
+
+# 対象アプリの言語（project language）
+project_language: ja
+
+# 規約版
+protocol_version: "B1.0"
+
+# 証拠出力先
+evidence_output_dir: ".reviewcompass/evidence/"
+
+# 既定の phase および profile（値語彙は runtime 所有）
+default_phase_profile: ""

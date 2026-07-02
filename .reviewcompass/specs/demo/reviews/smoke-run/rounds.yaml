@@ -1,0 +1,28 @@
+round_id: round-1
+purpose: implementation
+invocation_timestamp: '2026-07-02T05:58:07.024868+00:00'
+target_files:
+- path: /Users/Daily/Development/WindTurbineWake/LLMGP/app.md
+  sha256: e0674fde77961276b8bc1d1392f678d074d06335fae857f1ddffa43ddf0a0131
+criteria: deployment_smoke
+prompt_sha256: ce9448a95cc421bfedb84fb3bf6c24ec7eea9f314d441ab92fdb2a957de3716e
+model_results:
+- model_id: smoke-model
+  provider: smoke-provider
+  role: primary
+  treatment: primary
+  invocation_path: api
+  raw_path: raw/smoke-model.round-1.txt
+  raw_sha256: ce558f121aeac8f4a9e1cff3f462722cc6eeaad7a9dc4d7dd2e58cce2fd41b1d
+  parsed_path: parsed/smoke-model.round-1.yaml
+  parsed_sha256: 7bd0b488d8ff9493edbd64b65a3008e21f3f5abc349b827a8798a93560e4c99b
+  parse_status: parsed
+  formatted_by: parser
+  formatted_by_actor_type: orchestrator
+  formatted_by_actor: run_role.py
+  formatted_at: '2026-07-02T05:58:07.024868+00:00'
+  follow_up_action: triage
+  attempts: 1
+  duration_seconds: 0.0
+  prompt_path: prompts/smoke-model.round-1.prompt.md
+  prompt_sha256: ce9448a95cc421bfedb84fb3bf6c24ec7eea9f314d441ab92fdb2a957de3716e

@@ -1,0 +1,4 @@
+data/
+
+# ReviewCompass 実行時生成物（検査ログ・effective prompt・commit 承認レコード）
+.reviewcompass/runtime/
