@@ -1,0 +1,11 @@
+```yaml
+findings:
+  - severity: WARN
+    target_location: "7. Required Checks"
+    description: "Hardcoded assumptions about target artifact section identifiers (FR1-FR5, FR2, FR3)."
+    rationale: "Referencing specific assumed IDs like 'FR2's operator list' introduces framing bias. If the target document's actual numbering differs (e.g., the operator list is labeled FR1), the model may falsely report a failure based on the mismatch rather than the content. Checks should describe the required content conceptually rather than locking into an assumed numbering scheme."
+  - severity: INFO
+    target_location: "9. Finding Policy"
+    description: "Misplaced workflow security constraint applied to the target artifact content."
+    rationale: "Instructing the model to report CRITICAL if 'the target would authorize commit, push, phase completion' conflates system-level operational constraints with the text content of a requirements document. A static Markdown document cannot execute workflow operations, making this instruction awkward and slightly confusing to read, even if harmless in practice."
+```

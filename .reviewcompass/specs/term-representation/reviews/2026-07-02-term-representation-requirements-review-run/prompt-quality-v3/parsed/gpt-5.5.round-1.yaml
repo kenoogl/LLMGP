@@ -1,0 +1,13 @@
+role: adversarial
+provider: openai-api
+model: gpt-5.5
+attempts: 1
+duration_seconds: 41.994
+findings:
+- severity: INFO
+  target_location: §7 Required Checks, boundary_transfer
+  description: The CSV/case-parameter preprocessing boundary is attributed to the
+    feature-partitioning excerpt, but that excerpt does not state this boundary.
+  rationale: The boundary is supported by the user-directed decisions in §3, not by
+    the feature-partitioning material in §6.4. The prompt remains usable, but clarifying
+    the provenance would reduce source-tracing ambiguity for the API judge.

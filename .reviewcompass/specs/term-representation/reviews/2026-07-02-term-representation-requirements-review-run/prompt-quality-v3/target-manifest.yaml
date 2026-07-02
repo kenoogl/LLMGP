@@ -1,0 +1,6 @@
+run_id: prompt-quality-v3
+target_files:
+- path: .reviewcompass/specs/term-representation/reviews/2026-07-02-term-representation-requirements-review-run/review-target.md
+  sha256: 213469b14b0e7396ec0565c957b46edd099a333b402068ba3ae485074b58b5d7
+execution_spec_path: review-execution-spec.yaml
+execution_spec_sha256: fb20dcd399aae1f2c81b678bd8cee05bb19e35322608c9ac0de08744fb3cc37b

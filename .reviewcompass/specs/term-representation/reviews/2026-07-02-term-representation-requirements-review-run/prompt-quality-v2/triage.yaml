@@ -1,0 +1,98 @@
+run_id: prompt-quality-v2
+triage_status: draft
+generated_at: '2026-07-02T09:38:15.670099+00:00'
+decision_actor: null
+decision_actor_type: human
+items:
+- finding_id: prompt-quality-v2-gpt-5.5-adversarial-001
+  run_id: prompt-quality-v2
+  source_model: gpt-5.5
+  source_round: round-1
+  source_raw_path: raw/gpt-5.5.round-1.txt
+  source_parsed_path: parsed/gpt-5.5.round-1.yaml
+  severity_original: ERROR
+  severity_normalized: ERROR
+  target_location: §4 Required Disciplines
+  plain_language_summary: The prompt asks the artifact reviewer to judge whether §7
+    of the criteria prompt correctly and completely operationalizes workflow policy.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: A criteria-file used for API review must keep the criteria and
+    target roles distinct. The eventual reviewer should judge the supplied requirements.md
+    target, not audit the criteria prompt itself. This meta-instruction could cause
+    findings against the prompt or workflow policy instead of the target artifact,
+    producing unusable or misdirected output.
+  applied_files: []
+  superseded_by: null
+- finding_id: prompt-quality-v2-gpt-5.5-adversarial-002
+  run_id: prompt-quality-v2
+  source_model: gpt-5.5
+  source_round: round-1
+  source_raw_path: raw/gpt-5.5.round-1.txt
+  source_parsed_path: parsed/gpt-5.5.round-1.yaml
+  severity_original: WARN
+  severity_normalized: WARN
+  target_location: §4.2 WORKFLOW_NAVIGATION.md#stage
+  plain_language_summary: The included triad-review process text is mostly unrelated
+    to the requirements.md artifact judgment.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: The excerpt contains review-run orchestration obligations such
+    as provider/model confirmation and post-run user presentation before proxy_model,
+    edits, spec updates, or phase transition. Those are workflow duties for the operator,
+    not requirements-phase artifact content. Including them without clearly marking
+    them as non-target background may distract reviewers or encourage out-of-scope
+    findings against requirements.md.
+  applied_files: []
+  superseded_by: null
+- finding_id: prompt-quality-v2-gemini-3.1-pro-preview-judgment-001
+  run_id: prompt-quality-v2
+  source_model: gemini-3.1-pro-preview
+  source_round: round-1
+  source_raw_path: raw/gemini-3.1-pro-preview.round-1.txt
+  source_parsed_path: parsed/gemini-3.1-pro-preview.round-1.yaml
+  severity_original: ERROR
+  severity_normalized: ERROR
+  target_location: 4. Required Disciplines
+  plain_language_summary: Instructs the model to evaluate the prompt's own Section
+    7 rather than focusing solely on the target document.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: Telling the model to 'independently judge whether §7 correctly
+    and completely operationalizes the general policy' shifts the review target from
+    the target artifact to the criteria prompt itself. This will likely cause the
+    model to output findings about the prompt's completeness instead of the target's
+    compliance, resulting in unusable output.
+  applied_files: []
+  superseded_by: null
+- finding_id: prompt-quality-v2-gemini-3.1-pro-preview-judgment-002
+  run_id: prompt-quality-v2
+  source_model: gemini-3.1-pro-preview
+  source_round: round-1
+  source_raw_path: raw/gemini-3.1-pro-preview.round-1.txt
+  source_parsed_path: parsed/gemini-3.1-pro-preview.round-1.yaml
+  severity_original: WARN
+  severity_normalized: WARN
+  target_location: 4.2 WORKFLOW_NAVIGATION.md#stage
+  plain_language_summary: Includes unrelated workflow execution guidelines regarding
+    triad-review operational steps.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: The rules for how the agent should conduct the review-run (confirming
+    roles, presenting triage drafts to the user) have no bearing on whether `requirements.md`
+    correctly inherits upstream intent. Including this bloats the common background
+    and introduces irrelevant context that may distract the model.
+  applied_files: []
+  superseded_by: null

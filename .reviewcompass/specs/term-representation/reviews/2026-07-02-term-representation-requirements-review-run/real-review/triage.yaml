@@ -1,0 +1,71 @@
+run_id: real-review
+triage_status: draft
+generated_at: '2026-07-02T09:51:08.099968+00:00'
+decision_actor: null
+decision_actor_type: human
+items:
+- finding_id: real-review-gpt-5.5-adversarial-001
+  run_id: real-review
+  source_model: gpt-5.5
+  source_round: round-1
+  source_raw_path: raw/gpt-5.5.round-1.txt
+  source_parsed_path: parsed/gpt-5.5.round-1.yaml
+  severity_original: ERROR
+  severity_normalized: ERROR
+  target_location: .reviewcompass/specs/term-representation/requirements.md §3 非機能要件・制約,
+    bullet 1
+  plain_language_summary: The requirement says implementation assumes “参照・部分流用” of
+    LLMSR code, which is not supported by upstream intent and conflicts with the stated
+    rewrite boundary.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: Upstream INTENT.md and DESIGN_PRINCIPLES.md state that LLMSR code
+    must not be directly copied and that LLMGP should be newly rewritten while using
+    LLMSR only as a reference. “部分流用” can be read as partial code reuse/copying, which
+    weakens or contradicts that boundary and introduces unsupported drift.
+  applied_files: []
+  superseded_by: null
+- finding_id: real-review-gpt-5.5-adversarial-002
+  run_id: real-review
+  source_model: gpt-5.5
+  source_round: round-1
+  source_raw_path: raw/gpt-5.5.round-1.txt
+  source_parsed_path: parsed/gpt-5.5.round-1.yaml
+  severity_original: WARN
+  severity_normalized: WARN
+  target_location: .reviewcompass/specs/term-representation/requirements.md §2 FR2
+    受け入れ基準
+  plain_language_summary: The acceptance criterion refers to “上記14種の演算子”, but the
+    listed required operator set contains 15 operators.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: 'The list correctly includes the user-directed operators: load/add/sub/mul/div/pow/exp/log/sin/cos/tan/sinh/cosh/tanh/abs,
+    and excludes d_dt. However, the incorrect count creates ambiguity for implementation
+    or later verification and could lead a reader to think one operator may be omitted.'
+  applied_files: []
+  superseded_by: null
+- finding_id: real-review-gemini-3.1-pro-preview-judgment-001
+  run_id: real-review
+  source_model: gemini-3.1-pro-preview
+  source_round: round-1
+  source_raw_path: raw/gemini-3.1-pro-preview.round-1.txt
+  source_parsed_path: parsed/gemini-3.1-pro-preview.round-1.yaml
+  severity_original: WARN
+  severity_normalized: WARN
+  target_location: '2. 機能要件 > FR2: 演算子の種類'
+  plain_language_summary: 受入基準における演算子の総数カウントの不一致（15種であるべき箇所が14種と記載されている）
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: 要件のリストには指示通り15種類の演算子（load, add, sub, mul, div, pow, exp, log, sin,
+    cos, tan, sinh, cosh, tanh, abs）が正しく網羅されていますが、直下の受入基準で「上記14種の演算子それぞれについて」と記述されています。単純なカウントミスと推測されますが、テスト実装時に1つの演算子が検証要件から漏れていると解釈される曖昧さを生むため、15種に修正することが推奨されます。
+  applied_files: []
+  superseded_by: null

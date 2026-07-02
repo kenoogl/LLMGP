@@ -1,0 +1,305 @@
+round_id: round-1
+purpose: prompt_quality
+invocation_timestamp: '2026-07-02T09:40:53.243258+00:00'
+target_files:
+- path: .reviewcompass/specs/term-representation/reviews/2026-07-02-term-representation-requirements-review-run/review-target.md
+  sha256: 213469b14b0e7396ec0565c957b46edd099a333b402068ba3ae485074b58b5d7
+criteria: '---
+
+  criteria_id: api-review-prompt-quality-review
+
+  phase: prompt-quality
+
+  review_target: <api-review-criteria-draft.md>
+
+  ---
+
+
+  # API Review Prompt Quality Review Criteria
+
+
+  Review the target prompt draft itself. Do not review the eventual feature artifact
+  yet.
+
+
+  The question is:
+
+
+  Is the draft prompt suitable to use as the `--criteria-file` for the intended API-mediated
+  review, given that the actual `--target` will be the target artifact named in the
+  draft?
+
+
+  If user-provided review requirements exist, also judge whether the draft prompt
+  preserves and operationalizes those requirements without unauthorized narrowing,
+  broadening, replacement, or added authority.
+
+
+  ## Required Quality Checks
+
+
+  Check both general LLM-as-Judge prompt quality and any workflow / phase-specific
+  review requirements.
+
+
+  ### General API Review Prompt Quality
+
+
+  The prompt draft must:
+
+
+  1. Show that main identified the materials and judgment points before sending the
+  prompt.
+
+  2. Include enough background and related context for the model to avoid guessing.
+
+  3. Ask a non-leading analysis question.
+
+  4. Define a scope that is neither too broad nor too narrow.
+
+  5. Provide or rely on a fixed, parser-friendly output contract when combined with
+  the API review runner template.
+
+  6. Avoid credentials, personal data, or unrelated confidential material.
+
+  7. Keep `--criteria-file` and `--target` roles distinct.
+
+  8. Ensure the target manifest will contain the actual artifact under review.
+
+
+  ### User Review Requirements Fit
+
+
+  When the review was requested by a user or by a workflow-specific gate, the prompt
+  draft must:
+
+
+  1. Preserve the requested review purpose, review object, focus, scope boundaries,
+  source materials, output requirements, and prohibited actions.
+
+  2. Map those requirements into the review task, required checks, out of scope, and
+  finding policy.
+
+  3. Avoid narrowing the requested review so that important user-stated concerns disappear.
+
+  4. Avoid broadening the requested review into unrelated judgments or downstream
+  phase decisions.
+
+  5. Avoid replacing the requested review question with a more convenient or generic
+  question.
+
+  6. Mark assumptions explicitly when the user requirement is ambiguous.
+
+  7. Keep workflow-required checks distinguishable from user-requested checks when
+  both apply.
+
+  8. Prevent commit, push, phase completion, human approval delegation, or unapproved
+  specification changes unless those actions are explicitly in scope and allowed by
+  the governing workflow.
+
+
+  ### Judgment Granularity
+
+
+  The prompt draft must:
+
+
+  1. Contain one primary judgment question.
+
+  2. Avoid bundling multiple independent cluster, finding, acceptance, or design-policy
+  judgments into one prompt.
+
+  3. Split multiple independent judgments into separate prompt files unless they are
+  inseparable parts of the same decision.
+
+  4. Include only the source findings, upstream materials, target summaries, and output
+  fields needed for the specific judgment item.
+
+  5. Keep common background short enough that it does not obscure the item-specific
+  evidence.
+
+  6. Require separate prompt-quality review evidence for each item-specific prompt
+  when the review is split.
+
+
+  ### Source-Material Quality
+
+
+  The prompt draft must:
+
+
+  1. Clearly distinguish review target, source materials, and out-of-scope material.
+
+  2. Avoid path-only source material listing.
+
+  3. Include required source material as excerpt or structured summary in a model-readable
+  form.
+
+  4. Mark front matter paths as provenance when they are not model-readable content.
+
+  5. Include unresolved or deferred items when they affect the target review.
+
+
+  ### External API Material Policy
+
+
+  The prompt draft may include ReviewCompass repository specifications, designs, tasks,
+  review findings, structured summaries, and evidence paths when they are necessary
+  for API review or proxy_model judgment and the user has approved that API/proxy
+  execution.
+
+
+  The prompt draft must:
+
+
+  1. Exclude API keys, tokens, passwords, nonces, and other secrets.
+
+  2. Exclude personal identifiers such as email addresses and phone numbers unless
+  explicitly required and approved.
+
+  3. Exclude third-party confidential material that is not allowed to be sent externally.
+
+  4. Avoid unnecessary full logs or unrelated files.
+
+  5. Use the minimum review-relevant excerpts or structured summaries needed for the
+  judgment item.
+
+  6. Not treat ordinary repository-internal specs, designs, review findings, or evidence
+  paths as automatically prohibited solely because they are unpublished.
+
+
+  ### Vertical Intent Transfer Requirements
+
+
+  When the review is a phase review under `SESSION_WORKFLOW_GUIDE.md#vertical-intent-transfer-review`,
+  the prompt draft must:
+
+
+  1. Limit target judgment to the current phase artifact.
+
+  2. Use upstream artifacts only for background and intent-transfer checking.
+
+  3. Include upstream purpose, responsibility boundaries, acceptance criteria, forbidden
+  actions, unresolved items, and intended target-phase transfer.
+
+  4. Prevent the model from judging downstream tasks or implementation correctness
+  unless downstream invention would be forced by a target omission.
+
+
+  ### Output And Triage Fit
+
+
+  The prompt draft must:
+
+
+  1. Use severity labels compatible with the API parser: `CRITICAL`, `ERROR`, `WARN`,
+  `INFO`.
+
+  2. Give enough target-location guidance for findings to be triaged.
+
+  3. Define when `findings: []` is acceptable.
+
+  4. Avoid wording that suppresses findings about critical boundaries while merely
+  trying to prohibit the model from authorizing operations.
+
+
+  ## Finding Policy
+
+
+  - Report `CRITICAL` if the draft prompt would authorize or imply authorization of
+  irreversible operations, gate completion, or human-only approvals.
+
+  - Report `CRITICAL` if the draft prompt would violate a user-stated prohibited action
+  or authority limit.
+
+  - Report `ERROR` if the draft prompt omits, weakens, broadens, or replaces a user-stated
+  review requirement in a way that changes what will be reviewed.
+
+  - Report `ERROR` if the draft prompt combines multiple independent judgments so
+  that the model is likely to miss item-specific evidence, conflate labels, or produce
+  unusable decisions.
+
+  - Report `ERROR` if the draft prompt would likely cause models to review the wrong
+  target, rely on summaries instead of the real target, miss required upstream-transfer
+  obligations, leak secrets or prohibited third-party confidential material, or produce
+  unusable output.
+
+  - Report `WARN` if the draft prompt is usable but has avoidable ambiguity, framing
+  bias, incomplete source-material presentation, weak target/source/out-of-scope separation,
+  incomplete mapping from user requirements to checks, or mildly oversized common
+  background.
+
+  - Report `INFO` for minor wording or ergonomics improvements.
+
+  - Return `findings: []` only if the draft prompt is safe to use for the intended
+  API review.
+
+
+  ## Output Contract
+
+
+  Return YAML only with top-level key `findings`.
+
+
+  Each finding must include:
+
+
+  - `severity`: CRITICAL, ERROR, WARN, or INFO
+
+  - `target_location`: specific section in the prompt draft
+
+  - `description`: concise finding summary
+
+  - `rationale`: why this matters for API review quality
+
+
+  If there are no findings, return exactly:
+
+
+  findings: []
+
+  '
+prompt_sha256: 15f5d3d5a9072e5107998cdce7b52649dc47a3882a217d9124e0cf4d884e6303
+model_results:
+- model_id: gpt-5.5
+  provider: openai-api
+  role: adversarial
+  treatment: adversarial
+  invocation_path: api
+  raw_path: raw/gpt-5.5.round-1.txt
+  raw_sha256: 2cd8056a7c073f9b4a21b8bbac1ae8606edab7cd6a65de78f8d20a9c88012aff
+  parsed_path: parsed/gpt-5.5.round-1.yaml
+  parsed_sha256: 4cf1d71e8d330a2a371136eafbf92cd620a34c89fd414134d5e88c53422278ea
+  parse_status: parsed
+  formatted_by: parser
+  formatted_by_actor_type: orchestrator
+  formatted_by_actor: run_role.py
+  formatted_at: '2026-07-02T09:40:01.247476+00:00'
+  follow_up_action: triage
+  attempts: 1
+  duration_seconds: 41.994
+  prompt_path: prompts/gpt-5.5.round-1.prompt.md
+  prompt_sha256: 2145d8adf80bdd10cad582cc563ba2b4de3b701702380569af43d072cb10fe99
+- model_id: gemini-3.1-pro-preview
+  provider: gemini-api
+  role: judgment
+  treatment: judgment
+  invocation_path: api
+  raw_path: raw/gemini-3.1-pro-preview.round-1.txt
+  raw_sha256: ebe3ac9844cbfd8a919b0893e35f530138e617d2f282fbaac515b22dbf431b3d
+  parsed_path: parsed/gemini-3.1-pro-preview.round-1.yaml
+  parsed_sha256: 2de2d643fb990e5ef88848ea43a32451da1793246af7135a135a631ebf2fbcad
+  parse_status: parsed
+  formatted_by: parser
+  formatted_by_actor_type: orchestrator
+  formatted_by_actor: run_role.py
+  formatted_at: '2026-07-02T09:40:53.243258+00:00'
+  follow_up_action: triage
+  attempts: 1
+  duration_seconds: 51.985
+  prompt_path: prompts/gemini-3.1-pro-preview.round-1.prompt.md
+  prompt_sha256: 15f5d3d5a9072e5107998cdce7b52649dc47a3882a217d9124e0cf4d884e6303
+criteria_source_path: /Users/Daily/Development/WindTurbineWake/ReviewCompass/templates/review/api_review_prompt_quality_criteria_template.md
+criteria_source_sha256: 26b4a89f7460d2aa7d318ac8586d1efe81268417740c5c5c46984aa8080fe7ea
+execution_spec_path: review-execution-spec.yaml
+execution_spec_sha256: fb20dcd399aae1f2c81b678bd8cee05bb19e35322608c9ac0de08744fb3cc37b

@@ -1,0 +1,49 @@
+role: judgment
+provider: gemini-api
+model: gemini-3.1-pro-preview
+attempts: 1
+duration_seconds: 35.524
+verdict: sufficient
+independent_reconstruction:
+  judgment_items:
+  - item_id: term-representation-requirements-vertical-intent-transfer
+    question: Does the term-representation requirements.md faithfully inherit upstream
+      intent, responsibility boundaries, and the user's explicitly stated requirements
+      regarding operators, variables, and out-of-scope data preprocessing?
+    target_files:
+    - .reviewcompass/specs/term-representation/requirements.md
+    source_materials:
+    - intent/INTENT.md
+    - intent/NON_GOALS.md
+    - intent/DESIGN_PRINCIPLES.md
+    - stages/feature-partitioning/2026-07-02-proposal.md (term-representation excerpt)
+    out_of_scope:
+    - design.md and tasks.md
+    - Implementation details (Julia)
+    - Correctness of other features (e.g., term-variation-operators, equation-fitting)
+    rationale: This is the mandatory vertical-intent-transfer review gate for the
+      requirements phase of the term-representation feature.
+preanalysis_assessment:
+  supported_parts:
+  - Identification of a single required judgment item without needing splits.
+  - Inlining of necessary full-text source materials.
+  - Correct identification of out-of-scope elements, including the deferred design.md
+    and tasks.md.
+  missing_perspectives: []
+  unsupported_or_overconfident_parts: []
+  bias_risks: []
+prompt_sufficiency:
+  information: sufficient
+  question: sufficient
+  scope: sufficient
+  sensitivity_check: sufficient
+  notes:
+  - The proposed API review prompt correctly includes all source materials as full
+    text or relevant excerpts.
+  - The user's specific conversational requirements (operator list, variables, out-of-scope
+    boundaries) are accurately integrated into both the 'User Review Requirements'
+    and 'Required Checks' sections.
+  - The prompt successfully separates target material, source material, and evaluation
+    criteria.
+required_prompt_changes: []
+findings: []

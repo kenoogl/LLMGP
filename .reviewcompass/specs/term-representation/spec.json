@@ -2,7 +2,7 @@
   "feature_name": "term-representation",
   "language": "ja",
   "created_at": "2026-07-02T00:00:00+09:00",
-  "updated_at": "2026-07-02T00:00:00+09:00",
+  "updated_at": "2026-07-02T02:00:00+09:00",
   "workflow_state": {
     "intent": {
       "drafting": true,
@@ -16,8 +16,8 @@
       "reference": "stages/feature-partitioning/2026-07-02-proposal.md"
     },
     "requirements": {
-      "drafting": false,
-      "triad-review": false,
+      "drafting": true,
+      "triad-review": true,
       "review-wave": false,
       "alignment": false,
       "approval": false

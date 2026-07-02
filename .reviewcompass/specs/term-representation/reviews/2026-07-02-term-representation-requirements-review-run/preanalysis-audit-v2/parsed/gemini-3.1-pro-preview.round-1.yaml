@@ -1,0 +1,61 @@
+role: judgment
+provider: gemini-api
+model: gemini-3.1-pro-preview
+attempts: 1
+duration_seconds: 36.401
+verdict: sufficient
+independent_reconstruction:
+  judgment_items:
+  - item_id: term-representation-requirements-vertical-intent-transfer
+    question: Does the term-representation requirements document faithfully inherit
+      the purpose, responsibility boundaries, acceptance criteria, and forbidden actions
+      established in the upstream intent documents and user-directed decisions, without
+      omission, weakening, unsupported addition, or drift?
+    target_files:
+    - .reviewcompass/specs/term-representation/requirements.md
+    source_materials:
+    - intent/INTENT.md
+    - intent/NON_GOALS.md
+    - intent/DESIGN_PRINCIPLES.md
+    - stages/feature-partitioning/2026-07-02-proposal.md (term-representation section)
+    - User-directed requirements (operator list, variable set including D/TI/C, out-of-scope
+      preprocessing boundaries)
+    out_of_scope:
+    - The correctness or completeness of design.md or tasks.md (not yet drafted)
+    - The internal correctness of other downstream features (term-variation-operators,
+      equation-fitting, etc.)
+    - Implementation-level Julia design choices
+    rationale: This is a mandatory requirements-phase vertical-intent-transfer review.
+      The reviewer must ensure the target document correctly reflects all approved
+      upstream constraints and explicit user instructions.
+preanalysis_assessment:
+  supported_parts:
+  - Identification of the single judgment item for vertical intent transfer.
+  - Identification of the necessary intent and feature-partitioning source materials.
+  - Correct designation of downstream design, tasks, and other features as out of
+    scope.
+  missing_perspectives:
+  - The main preanalysis completely omitted the three explicit user-directed requirements
+    (the specific operator list, the externally-supplied variable set, and the data
+    preprocessing exclusions) provided in the workflow requirement.
+  unsupported_or_overconfident_parts: []
+  bias_risks:
+  - The preanalysis states 'All acceptance criteria in the target document (FR1-FR5)
+    trace back to a single upstream concern', which treats the draft's correctness
+    and traceability as an established fact rather than a hypothesis to be evaluated
+    by the reviewer.
+prompt_sufficiency:
+  information: sufficient
+  question: sufficient
+  scope: sufficient
+  sensitivity_check: sufficient
+  notes:
+  - The proposed API review prompt is excellent. It explicitly includes the user-directed
+    requirements that the main preanalysis missed, mapping them to concrete failure
+    conditions in Section 7.
+  - The proposed prompt avoids the framing bias seen in the preanalysis, maintaining
+    a neutral stance and requiring the reviewer to independently verify the traceability.
+  - The prompt clearly distinguishes target, sources, and out-of-scope materials,
+    and embeds the necessary source text in full.
+required_prompt_changes: []
+findings: []

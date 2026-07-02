@@ -1,0 +1,22 @@
+role: adversarial
+provider: openai-api
+model: gpt-5.5
+attempts: 1
+duration_seconds: 27.413
+findings:
+- severity: WARN
+  target_location: Section 4. Required Disciplines
+  description: Workflow discipline documents are listed only by path without model-readable
+    excerpts or summaries.
+  rationale: The draft otherwise operationalizes much of the vertical intent-transfer
+    review, but path-only references are weak source material for an API-mediated
+    judge. If the runner does not provide these files, the model cannot verify workflow-specific
+    obligations such as phase boundaries, gate authority limits, and required transfer
+    checks from the cited guidance itself.
+- severity: WARN
+  target_location: Section 6.1 intent/INTENT.md excerpt
+  description: The source excerpt includes an absolute local filesystem path that
+    is not necessary for the review judgment.
+  rationale: External API prompts should minimize unnecessary personal or environment-specific
+    information. The local path to an adjacent project is not needed to judge requirements
+    intent transfer and could be redacted or summarized without weakening the review.

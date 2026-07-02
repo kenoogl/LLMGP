@@ -1,0 +1,9 @@
+findings:
+  - severity: ERROR
+    target_location: ".reviewcompass/specs/term-representation/requirements.md §3 非機能要件・制約, bullet 1"
+    description: "The requirement says implementation assumes “参照・部分流用” of LLMSR code, which is not supported by upstream intent and conflicts with the stated rewrite boundary."
+    rationale: "Upstream INTENT.md and DESIGN_PRINCIPLES.md state that LLMSR code must not be directly copied and that LLMGP should be newly rewritten while using LLMSR only as a reference. “部分流用” can be read as partial code reuse/copying, which weakens or contradicts that boundary and introduces unsupported drift."
+  - severity: WARN
+    target_location: ".reviewcompass/specs/term-representation/requirements.md §2 FR2 受け入れ基準"
+    description: "The acceptance criterion refers to “上記14種の演算子”, but the listed required operator set contains 15 operators."
+    rationale: "The list correctly includes the user-directed operators: load/add/sub/mul/div/pow/exp/log/sin/cos/tan/sinh/cosh/tanh/abs, and excludes d_dt. However, the incorrect count creates ambiguity for implementation or later verification and could lead a reader to think one operator may be omitted."

@@ -1,0 +1,23 @@
+role: judgment
+provider: gemini-api
+model: gemini-3.1-pro-preview
+attempts: 1
+duration_seconds: 33.885
+findings:
+- severity: ERROR
+  target_location: 4. Required Disciplines
+  description: Instructs the model to evaluate the prompt's own Section 7 rather than
+    focusing solely on the target document.
+  rationale: Telling the model to 'independently judge whether §7 correctly and completely
+    operationalizes the general policy' shifts the review target from the target artifact
+    to the criteria prompt itself. This will likely cause the model to output findings
+    about the prompt's completeness instead of the target's compliance, resulting
+    in unusable output.
+- severity: WARN
+  target_location: 4.2 WORKFLOW_NAVIGATION.md#stage
+  description: Includes unrelated workflow execution guidelines regarding triad-review
+    operational steps.
+  rationale: The rules for how the agent should conduct the review-run (confirming
+    roles, presenting triage drafts to the user) have no bearing on whether `requirements.md`
+    correctly inherits upstream intent. Including this bloats the common background
+    and introduces irrelevant context that may distract the model.

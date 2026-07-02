@@ -1,0 +1,24 @@
+role: adversarial
+provider: openai-api
+model: gpt-5.5
+attempts: 1
+duration_seconds: 34.089
+findings:
+- severity: WARN
+  target_location: §7 Required Checks, item 2 boundary_transfer
+  description: The check appears to require the boundary exclusions to appear specifically
+    in a 'scope-out list'.
+  rationale: This could cause the API reviewer to report a failure for an otherwise
+    adequate requirements document that states the same responsibility boundaries
+    clearly in another section or format. The review should focus on whether the boundaries
+    are present and unweakened, not on a specific document structure unless that structure
+    is an explicit requirement.
+- severity: WARN
+  target_location: §9 Finding Policy
+  description: The unsupported-addition rule is broad and lacks guidance for legitimate
+    requirements-phase elaboration.
+  rationale: Reporting ERROR for any requirement not directly supported by upstream
+    material may lead the model to reject reasonable, traceable decomposition needed
+    in requirements.md. The prompt would be stronger if it distinguished unsupported
+    drift from implementation-neutral elaboration that is reasonably derived from
+    the approved intent and user-directed decisions.

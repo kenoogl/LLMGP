@@ -1,0 +1,510 @@
+prompt_id: gemini_review
+provider: gemini-api
+model_id: gemini-3.1-pro-preview
+
+# Task
+Review the target document for the requested phase and criteria.
+
+# Phase
+prompt_quality_preanalysis_audit
+
+# Criteria
+---
+criteria_id: main-preanalysis-sufficiency-audit
+phase: prompt-quality
+review_target: <preanalysis-audit-bundle.md>
+status: template
+---
+
+# Main Preanalysis Sufficiency Audit Criteria
+
+Review the target bundle before the actual API review-run.
+
+The target bundle must contain:
+
+- the user or workflow review requirement
+- the source materials needed for the judgment item
+- the main session LLM preanalysis
+- the proposed API review criteria or prompt
+
+The review question is:
+
+Can the proposed API review prompt derive the needed review judgment from the provided source materials, without relying on the main preanalysis as an answer key, and does the main preanalysis reveal any missing viewpoints, unsupported claims, or framing bias that must be corrected before the real review-run?
+
+## Required Method
+
+Perform the audit in this order:
+
+1. Independently reconstruct the judgment item from the source materials and user or workflow requirement.
+2. Compare that reconstruction with the main preanalysis.
+3. Judge whether the proposed API review prompt gives enough source material, scope, question, and output instructions for the actual reviewer.
+4. Identify required prompt changes before any real review-run.
+
+Treat the main preanalysis as a hypothesis and source-discovery aid. Do not treat it as ground truth.
+
+## Required Checks
+
+### Independent Reconstruction
+
+From the source materials alone, identify:
+
+- the judgment item ID
+- the exact review question
+- the target artifact or section
+- the source materials that are necessary
+- the material that is out of scope
+- the rationale connecting the source materials to the review question
+
+If multiple independent judgment items are present, report that the proposed review prompt must be split.
+
+### Main Preanalysis Assessment
+
+Compare the main preanalysis against the independent reconstruction.
+
+Check for:
+
+- supported parts that are well grounded in the sources
+- missing perspectives or missing source materials
+- unsupported, overconfident, or overstated parts
+- framing bias, including treating a draft answer as established fact
+- source coverage gaps caused by path-only references, summaries without source basis, or omitted upstream context
+
+### Prompt Sufficiency
+
+Judge whether the proposed API review prompt:
+
+- includes enough model-readable source material
+- asks one non-leading primary question
+- keeps target, source materials, and out-of-scope material distinct
+- preserves user or workflow requirements without narrowing, broadening, or replacing them
+- defines the expected output clearly enough for the runner
+- prevents the reviewer from authorizing commit, push, phase completion, human approval delegation, or unapproved specification changes
+
+## Finding Policy
+
+- Report `CRITICAL` if the prompt would authorize or imply authorization of irreversible operations, human-only approval, phase completion, or unapproved repository changes.
+- Report `ERROR` if the prompt cannot support the requested review because source materials are missing, path-only, wrong, or treated as target material.
+- Report `ERROR` if multiple independent judgments are bundled into one prompt.
+- Report `ERROR` if the prompt depends on the main preanalysis as the answer instead of requiring source-based independent judgment.
+- Report `ERROR` if user or workflow review requirements are omitted, narrowed, broadened, or replaced.
+- Report `WARN` for usable prompts with avoidable ambiguity, incomplete source mapping, weak target/source separation, or bias risk.
+- Report `INFO` for minor clarity or ergonomics improvements.
+
+## Output Contract
+
+Return YAML only. Do not wrap it in Markdown fences.
+
+The response must include these top-level keys:
+
+- `verdict`
+- `independent_reconstruction`
+- `preanalysis_assessment`
+- `prompt_sufficiency`
+- `required_prompt_changes`
+- `findings`
+
+Use one of these `verdict` values:
+
+- `sufficient`
+- `sufficient_with_revisions`
+- `insufficient`
+
+Use this shape:
+
+verdict: sufficient_with_revisions
+independent_reconstruction:
+  judgment_items:
+    - item_id: "<stable-id>"
+      question: "<source-derived review question>"
+      target_files:
+        - "<path or section>"
+      source_materials:
+        - "<path, section, or embedded source label>"
+      out_of_scope:
+        - "<material or action not judged>"
+      rationale: "<why this is the right judgment item>"
+preanalysis_assessment:
+  supported_parts:
+    - "<grounded part>"
+  missing_perspectives:
+    - "<missing viewpoint or source>"
+  unsupported_or_overconfident_parts:
+    - "<claim that needs source support or softening>"
+  bias_risks:
+    - "<framing or anchoring risk>"
+prompt_sufficiency:
+  information: "sufficient | revisions_needed | insufficient"
+  question: "sufficient | revisions_needed | insufficient"
+  scope: "sufficient | revisions_needed | insufficient"
+  sensitivity_check: "sufficient | revisions_needed | insufficient"
+  notes:
+    - "<short note>"
+required_prompt_changes:
+  - "<required change before actual review-run>"
+findings:
+  - severity: WARN
+    target_location: "<section in proposed prompt or bundle>"
+    description: "<concise finding>"
+    rationale: "<why this matters>"
+
+If there are no defects, return `verdict: sufficient`, complete the assessment keys with empty lists where appropriate, and return:
+
+findings: []
+
+
+# Output contract
+Return YAML only.
+The response must include the top-level key findings.
+Additional top-level keys are allowed only when the criteria explicitly defines them.
+Do not add wrapper keys such as review, result, metadata, or summary.
+Do not wrap the YAML in Markdown code fences.
+Do not write prose before or after the YAML.
+
+Each finding must include these keys:
+- severity
+- target_location
+- description
+- rationale
+
+Use only these severity values:
+- CRITICAL
+- ERROR
+- WARN
+- INFO
+
+If there are no findings and the criteria does not define additional top-level keys, return exactly:
+
+findings: []
+
+Valid shape example:
+
+findings:
+  - severity: WARN
+    target_location: "path or section"
+    description: "Plain finding summary"
+    rationale: "Why this matters"
+
+# Prior findings
+なし
+
+# Target path
+.reviewcompass/specs/term-representation/reviews/2026-07-02-term-representation-requirements-review-run/preanalysis-audit-bundle.md
+
+# Target document
+# Preanalysis Sufficiency Audit Bundle: term-representation requirements review
+
+## User or Workflow Review Requirement
+
+This is the mandatory requirements-phase vertical-intent-transfer triad-review gate (SESSION_WORKFLOW_GUIDE.md#vertical-intent-transfer-review) for the term-representation feature of the LLMGP project. The user separately directed three specific requirements decisions during drafting: (1) the operator set must include load/add/sub/mul/div/pow/exp/log/sin/cos/tan/sinh/cosh/tanh/abs and exclude d_dt; (2) the load-able variable set must not be hard-coded, and must include case parameters D (rotor diameter), TI (turbulence intensity), C (porous-disk coefficient) in addition to preprocessed field data; (3) CSV-derived variable preprocessing (r, ΔU) and case-parameter loading are out of scope for this feature.
+
+## Source Materials (upstream intent, feature-partitioning excerpt, full text)
+
+```
+## 6. Source Materials
+
+Use these source materials as background and for intent-transfer verification only. Do not judge their correctness; judge only whether the target correctly reflects them.
+
+### 6.1 intent/INTENT.md (upstream, full text)
+
+```
+# LLMGP Intent
+
+## 背景
+
+隣接プロジェクト LLMSR（/Users/Daily/Development/WindTurbineWake/LLMSR）は、風車後流のCFD（数値流体力学）シミュレーション結果から、速度欠損 ΔU(x, r) を表す代数式モデルを自動探索するJulia製の研究基盤である。LLMが構造式（数式）の生成・交叉・変異を行う疑似的なGP（遺伝的プログラミング）として構成されており、戦略はPhase5・Phase6の2つのワークフロー文書（WORKFLOW_PHASE5.md、WORKFLOW_PHASE6.md）に記述されている。trial_1〜trial_10まで試行済み。
+
+## 目的
+
+LLMGPは、LLMSRの作り直し（別バージョン）である。LLMSRのJuliaコードは直接コピーせず、参照しながら新規に書き直す。GPプロセスと評価軸を精査し、次の機能を中心に改良・追加する。
+
+1. 複数ケース間の汎化性能評価
+2. 複数LLMの比較
+3. 対照実験としてのGPのみ実行：最初に構築するLLMなしGPフレームワーク（後述）そのものを、LLM併用時との比較対象として使う
+4. 収束履歴の可視化
+5. 複数の評価地点：x/D = 2, 5, 10, 15。後流幅・中心速度欠損も評価の観点に加える
+6. 既存モデルとのベンチマーク比較：Jensen、BP、Larsen、Frandsen
+
+GPプロセス自体の精査点：時間方向の偏微分（d_dt演算子）は扱わない（対象は定常な代数式）。項（遺伝子）は、LLMSRと同様に内部に自由な係数（b, c, dなど）を持てる表現力の高い形式を維持する。項の自動選択と重要度の算出は、LLMSRから流用するDE（差分進化法）による係数最適化の評価関数に、不要な項の重みを0に近づける罰則（Lassoと同様の考え方）を加える方式を採用する。最適化後の各項の重みを正規化した値を、項の重要度として扱う。
+
+## 対象データ
+
+`data/`配下の風車後流CFDシミュレーション結果（座標・速度・圧力・乱流量を含むCSV）。今後、乱流強度I=0.01〜0.3とC=10〜25の組み合わせでケースを整備予定。
+```
+
+### 6.2 intent/NON_GOALS.md (upstream, full text)
+
+```
+# LLMGP でやらないこと
+
+- LLMSR（隣のプロジェクト）そのものを直接書き換えることはしない。LLMGPは別のプロジェクトとして、独立して作る。
+- 風の流れを計算するシミュレーション（CFD）自体は、このプロジェクトでは行わない。すでに計算済みのデータファイル（data/配下のCSV）を使う。
+- LLM（AIモデル）そのものを新しく作ったり訓練したりはしない。すでにあるLLMのサービスを呼び出して使う側に徹する。
+- 時間方向の偏微分を扱う方程式の発見はしない（対象は定常な代数式）。GPプロセスの詳細はINTENT.mdを参照。
+```
+
+### 6.3 intent/DESIGN_PRINCIPLES.md (upstream, full text)
+
+```
+# LLMGP 設計の考え方
+
+- LLMSRのコードはそのままコピーせず、内容を参考にしながら新しく書き直す。
+- 式の生成・入れ替え・入れ替えのもとになる操作（GPでいう「交叉」「変異」など）を、はっきりした手順として書く。あいまいなままにしない。
+- 新しい評価の仕組み（複数の条件で試す、複数のLLMを比べる、複数の場所で精度を見る、など）を後から足しやすい作りにする。
+- LLMを使う場合と使わない場合（GPだけの対照実験）を、同じ仕組みの中で切り替えて実行できるようにする。
+- 開発は段階的に進める。まずLLMを使わない自動処理（GPの交叉・変異、DEによる係数最適化、項の自動選択）だけでフレームワーク全体を作り、想定する機能（複数ケースでの評価、複数評価地点、収束履歴の可視化など）が一通り動くことを確認する。LLMの導入はそのあとの段階で行う。
+- 「LLMなしGP」は、元論文（古賀・小野2019）の忠実な再現ではなく、LLMGP独自の設計（DEの評価関数への罰則導入など）によるLLMなし版である。対照実験でもこのLLMなしGPを使う。
+```
+
+### 6.4 stages/feature-partitioning/2026-07-02-proposal.md (upstream, relevant excerpt)
+
+```
+term-representation: 項（遺伝子）のデータ構造。命令列（load・mul・div・exp・log・べき乗などの演算子）と、内部に自由な係数（b, c, dなど）を持てる形式を定義する。依存先なし。
+
+term-variation-operators: 項の初期生成（seeding）、交叉（1点交叉）、変異（命令の一部をランダムに変更）。依存: term-representation (hard)。
+
+equation-fitting: 複数の項を線形に組み合わせて方程式を作り、DEで全係数を一括最適化する。評価関数にはL1罰則を含める。依存: term-representation (hard)。
+
+term-importance: 最適化後の項の重みを正規化し、重要度を算出する。依存: equation-fitting (hard)。
+```
+
+```
+
+## Review Target (full text of .reviewcompass/specs/term-representation/requirements.md)
+
+```markdown
+# term-representation 要件定義
+
+## 1. 概要
+
+GP（遺伝的プログラミング）の遺伝子にあたる「項」を表すデータ構造を定義する。項は、風車後流モデルの式（例：`a * exp(-b*x) * (1 + c*r^2)^(-d)`）を構成する部品であり、後続のterm-variation-operators（交叉・変異）とequation-fitting（係数最適化）が操作する対象となる。
+
+## 2. 機能要件
+
+### FR1: 命令列としての表現
+項は、逐次実行される命令の並び（リスト）として表現できる。各命令は演算子と引数（オペランド）を持つ。
+
+**受け入れ基準**：
+- 命令列は空でない1つ以上の命令から構成される
+- 各命令は、演算子名と、その演算子に必要な引数を持つ
+
+### FR2: 演算子の種類
+命令の演算子は、少なくとも次を含む。
+- `load`：変数の読み込み。対象は、前処理済みの場のデータ（`data/`配下のCSV由来、例：x, r, ΔUなど）と、ケース単位のパラメータ（D：ロータ直径、TI：乱流強度、C：ポーラスディスク係数）
+- `add`／`sub`：加算・減算
+- `mul`／`div`：乗算・除算
+- `pow`：べき乗
+- `exp`：指数関数
+- `log`：自然対数
+- `sin`／`cos`／`tan`：三角関数
+- `sinh`／`cosh`／`tanh`：双曲線関数
+- `abs`：絶対値
+
+時間方向の偏微分（`d_dt`）演算子は含まない（`intent/NON_GOALS.md`に準拠）。
+
+**受け入れ基準**：
+- `load`が扱う変数の一覧（場の変数＋ケースパラメータD, TI, C）は、ハードコードせず、外部から渡された一覧を使う
+- 上記14種の演算子それぞれについて、命令として生成・評価できる
+
+### FR3: 自由係数の保持
+命令の引数には、変数、数値定数のプレースホルダ（自由係数。値は未確定で、後でequation-fittingがDEにより数値を決定する）、または他の命令の出力（式の入れ子構造）を指定できる。
+
+**受け入れ基準**：
+- 1つの項が複数の自由係数（例：a, b, c, dのような記号）を持てる
+- 自由係数には、他と区別できる識別子が付与される
+
+### FR4: 数値評価
+項は、変数の値（前処理済みの場のデータとケースパラメータ）と、各自由係数の数値を入力として与えると、対応する出力値を計算できる。
+
+**受け入れ基準**：
+- 同じ項・同じ入力に対して、常に同じ出力を返す（決定的である）
+- 定義域外の入力（対数の負値など）でエラーになった場合、そのエラーを呼び出し元が判別できる
+
+### FR5: 人間可読な式表現への変換
+項は、デバッグ・ログ・可視化のために、人間が読める数式の文字列表現に変換できる。
+
+**受け入れ基準**：
+- 自由係数はその識別子（記号）で表示される（数値ではなく）
+
+## 3. 非機能要件・制約
+
+- 実装言語はJulia（LLMSRのコードとの参照・部分流用を前提とするため）
+- LLMSRのデータ形式・APIとの互換性は求めない（作り直しのため）
+
+## 4. スコープ外
+
+- 項の交叉・変異・初期生成（seeding）：term-variation-operatorsで扱う
+- 自由係数の数値最適化（DE、L1罰則）：equation-fittingで扱う
+- 項の重要度算出：term-importanceで扱う
+- CSVからの`r`・`ΔU`の導出、D・TI・Cの読み込みなどのデータ前処理：別のデータ読み込み機能で扱う（term-representationは前処理済みの変数一覧を受け取るだけ）
+
+## 5. 参照
+
+- `intent/INTENT.md`（GPプロセスの精査点）
+- `intent/NON_GOALS.md`（偏微分を扱わない方針）
+- 古賀・小野 (2019)「データを記述する方程式の推定」（項のリスト表記の元になった考え方）
+```
+
+## Main Session LLM Preanalysis (full text)
+
+```markdown
+# Main Preanalysis: term-representation requirements review
+
+## Source materials read and purpose
+
+- `intent/INTENT.md` (full text): upstream purpose, the 6 planned enhancements, the GP-process decisions (no `d_dt`, expressive terms, DE+L1-penalty term selection).
+- `intent/NON_GOALS.md` (full text): explicit exclusions (no LLMSR rewrite-in-place, no CFD simulation, no LLM training, no time-derivative equation discovery).
+- `intent/DESIGN_PRINCIPLES.md` (full text): staged development (LLM-less GP core first), no-LLM-GP is LLMGP's own design (not a literal reproduction of Koga & Ono 2019).
+- `stages/feature-partitioning/2026-07-02-proposal.md` (excerpt for `term-representation`): approved scope and dependency (`term-representation` has no dependency; it is the foundation for `term-variation-operators` and `equation-fitting`).
+- `.reviewcompass/specs/term-representation/requirements.md` (target, full text): the document under review.
+
+## Judgment items
+
+Only one independent judgment item is present; no split is needed.
+
+- **item_id**: `term-representation-requirements-vertical-intent-transfer`
+- **question**: Does `requirements.md` for `term-representation` faithfully inherit the purpose, responsibility boundaries, acceptance criteria, and forbidden actions established in the upstream intent documents, without omission, weakening, unsupported addition, or drift?
+- **target**: `.reviewcompass/specs/term-representation/requirements.md`
+- **source materials**: `intent/INTENT.md`, `intent/NON_GOALS.md`, `intent/DESIGN_PRINCIPLES.md`, `stages/feature-partitioning/2026-07-02-proposal.md` (term-representation section)
+- **out of scope**: `design.md` / `tasks.md` (do not exist yet; downstream correctness is not judged here), the correctness of other features (`term-variation-operators`, `equation-fitting`, `evolution-loop-and-selection`, `term-importance`) beyond how `term-representation` states its boundary with them.
+
+## Split assessment
+
+No split needed. All acceptance criteria in the target document (FR1-FR5) trace back to a single upstream concern: does the term/gene data structure preserve LLMSR-level expressiveness while excluding what intent explicitly put out of scope.
+
+## Model-readable source material to include
+
+Full text of the three intent documents and the relevant feature-partitioning excerpt should be inlined in the criteria file (not path-only references), since the reviewer must independently verify the mapping from these upstream statements into the target's functional requirements and scope-out list.
+
+## Sensitive information check
+
+None of the source materials or the target document contain API keys, tokens, passwords, personal identifiers, or third-party confidential material. All materials are internal project specification documents that the user has already reviewed and approved (intent approval, feature-partitioning approval) in this session, and the user has authorized this API review-run.
+
+## Unresolved, unread, or speculative items
+
+- `design.md` and `tasks.md` for `term-representation` do not exist yet; this is expected at the requirements-drafting stage and is not a gap.
+- The concrete crossover/mutation algorithm (`term-variation-operators`) and the exact DE fitness function with L1-style penalty (`equation-fitting`) are intentionally deferred to their own features per the approved feature-partitioning; `requirements.md` correctly lists these as out of scope rather than speculating about them.
+```
+
+## Proposed API Review Criteria (full text, proposed --criteria-file for the real review-run)
+
+```markdown
+# API Review Criteria: term-representation requirements (vertical intent transfer)
+
+## 1. Review Task
+
+Judge whether `.reviewcompass/specs/term-representation/requirements.md` (the `--target` of this run) faithfully inherits the purpose, responsibility boundaries, acceptance criteria, and forbidden actions established in the upstream intent documents for the LLMGP project, without omission, weakening, unsupported addition, or drift.
+
+## 2. Why This Review Exists
+
+LLMGP's workflow requires a requirements-phase "vertical intent transfer" check (`SESSION_WORKFLOW_GUIDE.md#vertical-intent-transfer-review`) before `requirements.md` can proceed past drafting. This is the mandatory triad-review gate for the `term-representation` feature, the first and foundation feature of the approved feature-partitioning.
+
+## 3. User Review Requirements
+
+The user (project owner) approved intent (`intent/INTENT.md`, `intent/NON_GOALS.md`, `intent/DESIGN_PRINCIPLES.md`) and the feature-partitioning proposal, and specifically directed several requirements-drafting decisions in conversation: (a) the instruction set must include `load/add/sub/mul/div/pow/exp/log/sin/cos/tan/sinh/cosh/tanh/abs` and exclude `d_dt`; (b) the `load`-able variable set must not be hard-coded but supplied externally, derived from preprocessed field data (`x, r, ΔU`, etc.) plus case parameters D (rotor diameter), TI (turbulence intensity), and C (porous-disk coefficient); (c) deriving `r`/`ΔU` from the raw CSV and loading D/TI/C are explicitly out of scope for this feature (handled by a separate data-loading component). These three decisions must be checked as present and unweakened in the target.
+
+## 4. Required Disciplines
+
+- `.reviewcompass/guidance/SESSION_WORKFLOW_GUIDE.md#vertical-intent-transfer-review`
+- `.reviewcompass/guidance/WORKFLOW_NAVIGATION.md#stage`
+
+## 5. Review Target
+
+- Path: `.reviewcompass/specs/term-representation/requirements.md`
+- This file is supplied to you directly via the `--target` argument of the review runner; judge its actual full text, not a summary of it.
+
+## 6. Source Materials
+
+Use these source materials as background and for intent-transfer verification only. Do not judge their correctness; judge only whether the target correctly reflects them.
+
+### 6.1 intent/INTENT.md (upstream, full text)
+
+```
+# LLMGP Intent
+
+## 背景
+
+隣接プロジェクト LLMSR（/Users/Daily/Development/WindTurbineWake/LLMSR）は、風車後流のCFD（数値流体力学）シミュレーション結果から、速度欠損 ΔU(x, r) を表す代数式モデルを自動探索するJulia製の研究基盤である。LLMが構造式（数式）の生成・交叉・変異を行う疑似的なGP（遺伝的プログラミング）として構成されており、戦略はPhase5・Phase6の2つのワークフロー文書（WORKFLOW_PHASE5.md、WORKFLOW_PHASE6.md）に記述されている。trial_1〜trial_10まで試行済み。
+
+## 目的
+
+LLMGPは、LLMSRの作り直し（別バージョン）である。LLMSRのJuliaコードは直接コピーせず、参照しながら新規に書き直す。GPプロセスと評価軸を精査し、次の機能を中心に改良・追加する。
+
+1. 複数ケース間の汎化性能評価
+2. 複数LLMの比較
+3. 対照実験としてのGPのみ実行：最初に構築するLLMなしGPフレームワーク（後述）そのものを、LLM併用時との比較対象として使う
+4. 収束履歴の可視化
+5. 複数の評価地点：x/D = 2, 5, 10, 15。後流幅・中心速度欠損も評価の観点に加える
+6. 既存モデルとのベンチマーク比較：Jensen、BP、Larsen、Frandsen
+
+GPプロセス自体の精査点：時間方向の偏微分（d_dt演算子）は扱わない（対象は定常な代数式）。項（遺伝子）は、LLMSRと同様に内部に自由な係数（b, c, dなど）を持てる表現力の高い形式を維持する。項の自動選択と重要度の算出は、LLMSRから流用するDE（差分進化法）による係数最適化の評価関数に、不要な項の重みを0に近づける罰則（Lassoと同様の考え方）を加える方式を採用する。最適化後の各項の重みを正規化した値を、項の重要度として扱う。
+
+## 対象データ
+
+`data/`配下の風車後流CFDシミュレーション結果（座標・速度・圧力・乱流量を含むCSV）。今後、乱流強度I=0.01〜0.3とC=10〜25の組み合わせでケースを整備予定。
+```
+
+### 6.2 intent/NON_GOALS.md (upstream, full text)
+
+```
+# LLMGP でやらないこと
+
+- LLMSR（隣のプロジェクト）そのものを直接書き換えることはしない。LLMGPは別のプロジェクトとして、独立して作る。
+- 風の流れを計算するシミュレーション（CFD）自体は、このプロジェクトでは行わない。すでに計算済みのデータファイル（data/配下のCSV）を使う。
+- LLM（AIモデル）そのものを新しく作ったり訓練したりはしない。すでにあるLLMのサービスを呼び出して使う側に徹する。
+- 時間方向の偏微分を扱う方程式の発見はしない（対象は定常な代数式）。GPプロセスの詳細はINTENT.mdを参照。
+```
+
+### 6.3 intent/DESIGN_PRINCIPLES.md (upstream, full text)
+
+```
+# LLMGP 設計の考え方
+
+- LLMSRのコードはそのままコピーせず、内容を参考にしながら新しく書き直す。
+- 式の生成・入れ替え・入れ替えのもとになる操作（GPでいう「交叉」「変異」など）を、はっきりした手順として書く。あいまいなままにしない。
+- 新しい評価の仕組み（複数の条件で試す、複数のLLMを比べる、複数の場所で精度を見る、など）を後から足しやすい作りにする。
+- LLMを使う場合と使わない場合（GPだけの対照実験）を、同じ仕組みの中で切り替えて実行できるようにする。
+- 開発は段階的に進める。まずLLMを使わない自動処理（GPの交叉・変異、DEによる係数最適化、項の自動選択）だけでフレームワーク全体を作り、想定する機能（複数ケースでの評価、複数評価地点、収束履歴の可視化など）が一通り動くことを確認する。LLMの導入はそのあとの段階で行う。
+- 「LLMなしGP」は、元論文（古賀・小野2019）の忠実な再現ではなく、LLMGP独自の設計（DEの評価関数への罰則導入など）によるLLMなし版である。対照実験でもこのLLMなしGPを使う。
+```
+
+### 6.4 stages/feature-partitioning/2026-07-02-proposal.md (upstream, relevant excerpt)
+
+```
+term-representation: 項（遺伝子）のデータ構造。命令列（load・mul・div・exp・log・べき乗などの演算子）と、内部に自由な係数（b, c, dなど）を持てる形式を定義する。依存先なし。
+
+term-variation-operators: 項の初期生成（seeding）、交叉（1点交叉）、変異（命令の一部をランダムに変更）。依存: term-representation (hard)。
+
+equation-fitting: 複数の項を線形に組み合わせて方程式を作り、DEで全係数を一括最適化する。評価関数にはL1罰則を含める。依存: term-representation (hard)。
+
+term-importance: 最適化後の項の重みを正規化し、重要度を算出する。依存: equation-fitting (hard)。
+```
+
+## 7. Required Checks
+
+1. **purpose_transfer**: Does the target's overview (§1) correctly state that `term-representation` defines the GP gene/term data structure as the foundation for the other core features, consistent with intent's stated purpose? Failure condition: overview omits or misstates this foundational role.
+2. **boundary_transfer**: Does the target's scope-out section (§4) correctly exclude crossover/mutation/seeding, DE coefficient optimization with L1 penalty, importance scoring, and CSV/case-parameter data preprocessing, matching the feature-partitioning's stated dependency boundaries? Failure condition: any of these responsibilities is implicitly claimed by the target's functional requirements, or a boundary is missing from the scope-out list.
+3. **acceptance_criteria_transfer**: Do the target's functional requirements (FR1-FR5) operationalize intent's "GPプロセス自体の精査点" statement (expressive terms with free internal coefficients, no `d_dt`) into concrete, checkable acceptance criteria? Failure condition: FR2's operator list omits the `d_dt` exclusion, or FR3's free-coefficient requirement is missing or contradicts intent.
+4. **forbidden_actions_transfer**: Does the target correctly forbid a `d_dt`/time-derivative operator and correctly avoid hard-coding the `load`-able variable list, per the user's explicit direction recorded in User Review Requirements above? Failure condition: `d_dt` appears as an allowed operator, or the variable list is presented as fixed/hard-coded rather than externally supplied.
+5. **user_requirement_fidelity**: Are the three user-directed decisions in §3 (operator list, externally-supplied variable set including D/TI/C, and CSV/case-parameter preprocessing being out of scope) present in the target without narrowing or broadening? Failure condition: any of the three is missing, weakened, or altered.
+
+## 8. Out of Scope
+
+- The correctness or completeness of `design.md` or `tasks.md` for `term-representation` (neither exists yet).
+- The correctness of `term-variation-operators`, `equation-fitting`, `evolution-loop-and-selection`, or `term-importance` beyond how `term-representation`'s requirements state its boundary with them.
+- Implementation-level Julia design choices (data structure encoding, module layout); these are design-phase decisions.
+- Whether the feature-partitioning split itself was the right one (already approved by the user).
+
+## 9. Finding Policy
+
+- Report `CRITICAL` if the target would authorize commit, push, phase completion, or human-only approval steps (it should not; this is a requirements document).
+- Report `ERROR` if any of the 5 required checks in §7 fails (upstream purpose, boundary, acceptance criterion, or forbidden action is omitted, weakened, or contradicted).
+- Report `ERROR` if the target adds a requirement not supported by any upstream source material (unsupported addition / drift).
+- Report `WARN` for ambiguity, weak phrasing, or incomplete traceability that does not amount to an outright omission.
+- Report `INFO` for minor clarity improvements.
+- Return `findings: []` only if all 5 required checks pass and no unsupported additions are found.
+
+## Output Contract
+
+Return YAML only with top-level key `findings`. Each finding must include `severity` (CRITICAL/ERROR/WARN/INFO), `target_location` (specific section in `requirements.md`), `description`, and `rationale`. If there are no findings, return exactly `findings: []`.
+```
+

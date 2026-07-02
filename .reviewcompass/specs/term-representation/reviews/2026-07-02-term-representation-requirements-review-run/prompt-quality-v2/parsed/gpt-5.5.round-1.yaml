@@ -1,0 +1,24 @@
+role: adversarial
+provider: openai-api
+model: gpt-5.5
+attempts: 1
+duration_seconds: 20.893
+findings:
+- severity: ERROR
+  target_location: §4 Required Disciplines
+  description: The prompt asks the artifact reviewer to judge whether §7 of the criteria
+    prompt correctly and completely operationalizes workflow policy.
+  rationale: A criteria-file used for API review must keep the criteria and target
+    roles distinct. The eventual reviewer should judge the supplied requirements.md
+    target, not audit the criteria prompt itself. This meta-instruction could cause
+    findings against the prompt or workflow policy instead of the target artifact,
+    producing unusable or misdirected output.
+- severity: WARN
+  target_location: §4.2 WORKFLOW_NAVIGATION.md#stage
+  description: The included triad-review process text is mostly unrelated to the requirements.md
+    artifact judgment.
+  rationale: The excerpt contains review-run orchestration obligations such as provider/model
+    confirmation and post-run user presentation before proxy_model, edits, spec updates,
+    or phase transition. Those are workflow duties for the operator, not requirements-phase
+    artifact content. Including them without clearly marking them as non-target background
+    may distract reviewers or encourage out-of-scope findings against requirements.md.

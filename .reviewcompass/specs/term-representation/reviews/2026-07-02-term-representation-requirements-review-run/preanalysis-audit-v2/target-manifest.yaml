@@ -1,0 +1,4 @@
+run_id: preanalysis-audit-v2
+target_files:
+- path: .reviewcompass/specs/term-representation/reviews/2026-07-02-term-representation-requirements-review-run/preanalysis-audit-bundle-v2.md
+  sha256: fd41e7109f4f0786a2135f03b9e08cf6d5963c4ff73f4361ad005f9ddf326372

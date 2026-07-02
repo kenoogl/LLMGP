@@ -1,0 +1,50 @@
+run_id: prompt-quality
+triage_status: draft
+generated_at: '2026-07-02T09:34:47.095694+00:00'
+decision_actor: null
+decision_actor_type: human
+items:
+- finding_id: prompt-quality-gpt-5.5-adversarial-001
+  run_id: prompt-quality
+  source_model: gpt-5.5
+  source_round: round-1
+  source_raw_path: raw/gpt-5.5.round-1.txt
+  source_parsed_path: parsed/gpt-5.5.round-1.yaml
+  severity_original: WARN
+  severity_normalized: WARN
+  target_location: Section 4. Required Disciplines
+  plain_language_summary: Workflow discipline documents are listed only by path without
+    model-readable excerpts or summaries.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: The draft otherwise operationalizes much of the vertical intent-transfer
+    review, but path-only references are weak source material for an API-mediated
+    judge. If the runner does not provide these files, the model cannot verify workflow-specific
+    obligations such as phase boundaries, gate authority limits, and required transfer
+    checks from the cited guidance itself.
+  applied_files: []
+  superseded_by: null
+- finding_id: prompt-quality-gpt-5.5-adversarial-002
+  run_id: prompt-quality
+  source_model: gpt-5.5
+  source_round: round-1
+  source_raw_path: raw/gpt-5.5.round-1.txt
+  source_parsed_path: parsed/gpt-5.5.round-1.yaml
+  severity_original: WARN
+  severity_normalized: WARN
+  target_location: Section 6.1 intent/INTENT.md excerpt
+  plain_language_summary: The source excerpt includes an absolute local filesystem
+    path that is not necessary for the review judgment.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: External API prompts should minimize unnecessary personal or environment-specific
+    information. The local path to an adjacent project is not needed to judge requirements
+    intent transfer and could be redacted or summarized without weakening the review.
+  applied_files: []
+  superseded_by: null

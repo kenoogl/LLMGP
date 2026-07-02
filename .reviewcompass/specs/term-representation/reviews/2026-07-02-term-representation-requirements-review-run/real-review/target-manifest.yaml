@@ -1,0 +1,6 @@
+run_id: real-review
+target_files:
+- path: .reviewcompass/specs/term-representation/requirements.md
+  sha256: fad5d7a057e5682ce6ed655499190e787d7637b9ab45b43af5789b78d7d2a140
+execution_spec_path: review-execution-spec.yaml
+execution_spec_sha256: a0bd0b92ea4d86b4ba3df40b9ffe3c8f5922a2e0ad5efa5a9a9bf070a8fc9e78
