@@ -1,16 +1,4 @@
 {
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/pre-bash-precheck.sh",
-            "timeout": 30
-          }
-        ]
-      }
-    ]
-  }
+  "_comment": "ReviewCompassのcommit事前検査hookは、tools/check-workflow-action.pyのload_all_feature_specsがReviewCompass自身のFEATURE_ORDERを参照する既知の不具合(repair_workflow_state誤検出)によりcommitを常にブロックするため、2026-07-02に利用者承認のうえ無効化した。詳細はセッション記録参照。ReviewCompass側で修正されたら復元する。",
+  "hooks": {}
 }
