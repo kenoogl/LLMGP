@@ -1,0 +1,100 @@
+run_id: prompt-quality-v2
+triage_status: draft
+generated_at: '2026-07-02T11:37:55.555114+00:00'
+decision_actor: null
+decision_actor_type: human
+items:
+- finding_id: prompt-quality-v2-gpt-5.5-adversarial-001
+  run_id: prompt-quality-v2
+  source_model: gpt-5.5
+  source_round: round-1
+  source_raw_path: raw/gpt-5.5.round-1.txt
+  source_parsed_path: parsed/gpt-5.5.round-1.yaml
+  severity_original: ERROR
+  severity_normalized: ERROR
+  target_location: §1 Review Task and §7 Required Checks
+  plain_language_summary: The draft says the project-level d_dt/steady-state constraint
+    is operationalized by §7 check 4, but check 4 is actually indexing neutrality.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: This broken cross-reference leaves the only directly applicable
+    project-level NON_GOALS item without a clear required check. For a vertical intent-transfer
+    requirements review, forbidden-action transfer must be explicit and distinguishable;
+    otherwise the API judge may miss omissions or weakening around the d_dt/steady-state
+    boundary.
+  applied_files: []
+  superseded_by: null
+- finding_id: prompt-quality-v2-gpt-5.5-adversarial-002
+  run_id: prompt-quality-v2
+  source_model: gpt-5.5
+  source_round: round-1
+  source_raw_path: raw/gpt-5.5.round-1.txt
+  source_parsed_path: parsed/gpt-5.5.round-1.yaml
+  severity_original: WARN
+  severity_normalized: WARN
+  target_location: §3 User Review Requirements and §7 check 3 algorithm_fidelity
+  plain_language_summary: The Koga thesis requirement is reduced to a very terse summary
+    without an excerpt or fuller structured algorithm source.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: The draft states that the algorithms should follow Koga's 2018
+    thesis section 3.1.1, but the model is only given three summarized constraints.
+    If the intended user requirement is fidelity to that thesis section rather than
+    only those three points, the prompt may narrow the review and prevent the judge
+    from identifying other material algorithm drift.
+  applied_files: []
+  superseded_by: null
+- finding_id: prompt-quality-v2-gemini-3.1-pro-preview-judgment-001
+  run_id: prompt-quality-v2
+  source_model: gemini-3.1-pro-preview
+  source_round: round-1
+  source_raw_path: raw/gemini-3.1-pro-preview.round-1.txt
+  source_parsed_path: parsed/gemini-3.1-pro-preview.round-1.yaml
+  severity_original: ERROR
+  severity_normalized: ERROR
+  target_location: Section 1 (Review Task) and Section 7 (Required Checks)
+  plain_language_summary: Contradiction regarding Check 4 and omission of the `d_dt`
+    constraint check.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: Section 1 asserts that Check 4 operationalizes the project-level
+    `d_dt`/steady-state constraint. However, Section 7 defines Check 4 as checking
+    for `indexing_neutrality`, and the `d_dt` check is entirely missing from the required
+    checks list. This omits a stated review requirement and creates a logical contradiction
+    that will confuse the model, likely causing it to misapply the indexing check
+    or miss the `d_dt` constraint entirely.
+  applied_files: []
+  superseded_by: null
+- finding_id: prompt-quality-v2-gemini-3.1-pro-preview-judgment-002
+  run_id: prompt-quality-v2
+  source_model: gemini-3.1-pro-preview
+  source_round: round-1
+  source_raw_path: raw/gemini-3.1-pro-preview.round-1.txt
+  source_parsed_path: parsed/gemini-3.1-pro-preview.round-1.yaml
+  severity_original: WARN
+  severity_normalized: WARN
+  target_location: Section 3.1 (Upstream Structured Summary) and Section 8 (Out of
+    Scope)
+  plain_language_summary: Section 3.1 incorrectly references Section 8 as defining
+    the feature's responsibility boundaries.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: Section 3.1 points to Section 8 for 'responsibility_boundaries'.
+    However, Section 8 defines the out-of-scope instructions for the LLM's review
+    process itself (e.g., not evaluating downstream design documents), not the operational
+    boundaries of the target feature. Conflating the target feature's scope with the
+    review's scope introduces avoidable ambiguity.
+  applied_files: []
+  superseded_by: null

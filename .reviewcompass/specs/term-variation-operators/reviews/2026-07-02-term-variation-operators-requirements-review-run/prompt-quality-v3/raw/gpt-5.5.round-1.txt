@@ -1,0 +1,13 @@
+findings:
+  - severity: WARN
+    target_location: "§3.1 Upstream Structured Summary / responsibility_boundaries"
+    description: "Responsibility-boundary provenance is ambiguously described as coming from the target document's own scope-out list."
+    rationale: "For a vertical intent-transfer review, upstream responsibility boundaries must be the comparison standard and the target must be judged against them. Although §7 check 5 enumerates concrete boundaries, calling the target's own scope-out list the 'source of truth' could confuse the judge model and weaken missing-boundary findings."
+  - severity: WARN
+    target_location: "§1 Review Task and §7 Required Checks"
+    description: "Contradiction checks for some upstream NON_GOALS are stated in prose but not represented as an explicit required check."
+    rationale: "The draft says the target should be checked for contradictions with non-goals such as no CFD simulation and no LLM training, but §7 does not include a dedicated check for those forbidden actions. The broad unsupported-addition policy may catch this, but making the non-goal contradiction check explicit would better satisfy vertical intent-transfer requirements."
+  - severity: INFO
+    target_location: "§1 Review Task"
+    description: "The primary judgment sentence underemphasizes the feature-specific user requirements later checked in §7."
+    rationale: "The required checks preserve the Koga-rule, indexing-neutrality, and deferred-decision requirements, so the prompt is usable. Mentioning those feature-specific user requirements in the main review task would make the single primary judgment question align more clearly with the full review scope."

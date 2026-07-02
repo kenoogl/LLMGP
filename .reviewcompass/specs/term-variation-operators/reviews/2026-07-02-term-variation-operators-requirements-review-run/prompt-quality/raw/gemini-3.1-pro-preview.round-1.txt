@@ -1,0 +1,7 @@
+```yaml
+findings:
+  - severity: WARN
+    target_location: "§6.4 stages/feature-partitioning/2026-07-02-proposal.md and §7 Required Checks (Check 5)"
+    description: "Incomplete source-material presentation regarding 'evolution-loop-and-selection'."
+    rationale: "Check 5 requires the model to verify that the target's scope-out list excludes the elite-selection step owned by 'evolution-loop-and-selection'. However, the excerpt of the feature-partitioning proposal provided in §6.4 omits this feature entirely. Providing an incomplete excerpt while asking the model to check boundaries for a feature not listed in that excerpt introduces avoidable ambiguity, as the model may doubt the instruction or lack the necessary upstream context."
+```

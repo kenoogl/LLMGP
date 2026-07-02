@@ -1,0 +1,9 @@
+findings:
+  - severity: ERROR
+    target_location: ".reviewcompass/specs/term-variation-operators/requirements.md §2 FR1"
+    description: "FR1 redefines the inherited instruction operand model by requiring the first instruction to be an argument-free `load` and by limiting generated instruction references to earlier instructions only."
+    rationale: "`term-representation` defines `load` as variable loading and requires instructions to carry the operands they need; it also allows instruction arguments to be variables, free-coefficient placeholders, or outputs of other instructions. The target's `load` with no arguments and its argument-selection rule omit or contradict those inherited operand/free-coefficient mechanisms, failing structural consistency with the approved upstream feature."
+  - severity: ERROR
+    target_location: ".reviewcompass/specs/term-variation-operators/requirements.md §2 FR1"
+    description: "FR1 adds unsupported seeding constraints such as a fixed minimum instruction count of 2 and a mandatory first `load` instruction."
+    rationale: "The user-approved operational rules for this feature are limited to: generated instructions may reference only earlier-generated instructions, crossover swaps a leading prefix, and mutation replaces one instruction. The target's additional seeding constraints are not inherited from the upstream materials and materially constrain the algorithm beyond the approved requirements."

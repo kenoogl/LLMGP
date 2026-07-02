@@ -1,0 +1,6 @@
+run_id: prompt-quality-v2
+target_files:
+- path: .reviewcompass/specs/term-variation-operators/reviews/2026-07-02-term-variation-operators-requirements-review-run/review-target.md
+  sha256: b8e97dd92f74aea12b64a9b1910be79feb5eef2b931a826a5cd7e4ba5c880e9f
+execution_spec_path: review-execution-spec.yaml
+execution_spec_sha256: 204c4dd1cd980df26963029918796e83a16d7660722d893df779c89fd673ecfb

@@ -1,0 +1,4 @@
+run_id: preanalysis-audit
+target_files:
+- path: .reviewcompass/specs/term-variation-operators/reviews/2026-07-02-term-variation-operators-requirements-review-run/preanalysis-audit-bundle.md
+  sha256: f103d27e6138a2beddf36673ab0f0b017b828ab5e63256f9f989bf9f9010d3b9

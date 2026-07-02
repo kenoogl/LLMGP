@@ -1,0 +1,16 @@
+role: judgment
+provider: gemini-api
+model: gemini-3.1-pro-preview
+attempts: 1
+duration_seconds: 75.007
+findings:
+- severity: ERROR
+  target_location: '2. 機能要件 > FR1: 初期集団の生成（seeding）'
+  description: FR1の命令文生成手順が、上流の`term-representation`の構造要件（変数指定や自由係数の保持）と矛盾している。
+  rationale: FR1は「最初の命令文は引数を持たないloadのみ」「2番目以降の命令文の引数は、自分より前の命令文のみから選ぶ」と規定しています。これでは、`term-representation`で必須要件となっている「複数の変数やケースパラメータを対象とするload（引数での対象指定が必要）」（FR2）や「引数としての自由係数の保持」（FR3）を項に組み込むことが不可能になり、上流の構造的制約に対する欠落および矛盾（§7
+    Check 2違反）となります。他の命令文を参照するルールと、変数・自由係数を引数として許容するルールの両立が必要です。
+- severity: ERROR
+  target_location: '2. 機能要件 > FR2: 交叉（crossover）'
+  description: 「(k+1)番目以降」という表現が、1始まりのインデックス演算（1-based indexing）を前提としている。
+  rationale: 先頭k個の命令文を除いた残りの部分を「(k+1)番目以降」と記述することは、配列の添字が1から始まる算術を前提とした表現です（0始まりのインデックス系であれば、k個スキップした次はインデックスkになります）。これは、0始まり・1始まりのどちらの実装も前提としない中立的な表現で記述するというユーザー指示および必須審査基準（§7
+    Check 4）に違反しています。「残りの命令文」など、インデックス方式に依存しない表現に修正する必要があります。

@@ -1,0 +1,9 @@
+findings:
+  - severity: ERROR
+    target_location: "§1 Review Task and §7 Required Checks"
+    description: "The draft says the project-level d_dt/steady-state constraint is operationalized by §7 check 4, but check 4 is actually indexing neutrality."
+    rationale: "This broken cross-reference leaves the only directly applicable project-level NON_GOALS item without a clear required check. For a vertical intent-transfer requirements review, forbidden-action transfer must be explicit and distinguishable; otherwise the API judge may miss omissions or weakening around the d_dt/steady-state boundary."
+  - severity: WARN
+    target_location: "§3 User Review Requirements and §7 check 3 algorithm_fidelity"
+    description: "The Koga thesis requirement is reduced to a very terse summary without an excerpt or fuller structured algorithm source."
+    rationale: "The draft states that the algorithms should follow Koga's 2018 thesis section 3.1.1, but the model is only given three summarized constraints. If the intended user requirement is fidelity to that thesis section rather than only those three points, the prompt may narrow the review and prevent the judge from identifying other material algorithm drift."

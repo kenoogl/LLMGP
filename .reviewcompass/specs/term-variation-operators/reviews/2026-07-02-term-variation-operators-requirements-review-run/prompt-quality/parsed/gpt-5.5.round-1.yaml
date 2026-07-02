@@ -1,0 +1,34 @@
+role: adversarial
+provider: openai-api
+model: gpt-5.5
+attempts: 1
+duration_seconds: 53.697
+findings:
+- severity: ERROR
+  target_location: §7 Required Checks, check 5 (boundary_transfer) and §6 Source Materials
+  description: The elite-selection/evolution-loop boundary is required but not supported
+    by included upstream material.
+  rationale: The draft tells the reviewer to fail the target if its scope-out list
+    omits the elite-selection step as owned by `evolution-loop-and-selection`, but
+    the supplied source excerpts do not define that feature or establish that ownership.
+    A required check needs model-readable upstream evidence or an explicit marked
+    assumption; otherwise the API review may produce unsupported findings.
+- severity: WARN
+  target_location: §3.1 Upstream Structured Summary, unresolved_or_design_deferred_items
+  description: The upstream summary cites the target artifact's own §4 as evidence.
+  rationale: Intent-transfer background should distinguish upstream/user requirements
+    from the artifact under review. Citing the target's own section in an upstream
+    summary blurs target/source roles and may bias the reviewer to assume the target
+    already contains the required deferral instead of verifying the actual target
+    text.
+- severity: WARN
+  target_location: §1 Review Task, §7 Required Checks, and §9 Finding Policy
+  description: The broad project-level transfer question is not fully mapped into
+    concrete checks or triage rules.
+  rationale: The task asks the model to judge inheritance of project-level purpose,
+    boundaries, and forbidden actions from the upstream intent documents, but the
+    required checks mainly operationalize feature role, term-representation consistency,
+    algorithms, indexing, boundaries, and deferred items. Explicitly stating which
+    project-level non-goals and design principles are relevant, or that irrelevant
+    upstream constraints should only be checked for contradiction, would reduce ambiguity
+    and improve triage consistency.

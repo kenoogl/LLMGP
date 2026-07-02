@@ -1,0 +1,26 @@
+run_id: prompt-quality-v3
+models:
+- model_id: gpt-5.5
+  raw_path: raw/gpt-5.5.round-1.txt
+  parse_status: parsed
+  triage_status: triage_pending
+  findings_count: 3
+  findings_count_by_severity:
+    WARN: 2
+    INFO: 1
+  must_fix_count: 0
+  should_fix_count: 0
+  leave_as_is_count: 0
+  human_required_count: 0
+- model_id: gemini-3.1-pro-preview
+  raw_path: raw/gemini-3.1-pro-preview.round-1.txt
+  parse_status: parsed
+  triage_status: no_findings
+  findings_count: 0
+  findings_count_by_severity: {}
+  must_fix_count: 0
+  should_fix_count: 0
+  leave_as_is_count: 0
+  human_required_count: 0
+execution_spec_path: review-execution-spec.yaml
+execution_spec_sha256: c8905cec2cbbd56cb08db03cbd35a4048def9bc6c579dfc8a46fb1e04a89aff6

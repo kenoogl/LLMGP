@@ -1,0 +1,102 @@
+run_id: prompt-quality
+triage_status: draft
+generated_at: '2026-07-02T11:34:24.506589+00:00'
+decision_actor: null
+decision_actor_type: human
+items:
+- finding_id: prompt-quality-gpt-5.5-adversarial-001
+  run_id: prompt-quality
+  source_model: gpt-5.5
+  source_round: round-1
+  source_raw_path: raw/gpt-5.5.round-1.txt
+  source_parsed_path: parsed/gpt-5.5.round-1.yaml
+  severity_original: ERROR
+  severity_normalized: ERROR
+  target_location: §7 Required Checks, check 5 (boundary_transfer) and §6 Source Materials
+  plain_language_summary: The elite-selection/evolution-loop boundary is required
+    but not supported by included upstream material.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: The draft tells the reviewer to fail the target if its scope-out
+    list omits the elite-selection step as owned by `evolution-loop-and-selection`,
+    but the supplied source excerpts do not define that feature or establish that
+    ownership. A required check needs model-readable upstream evidence or an explicit
+    marked assumption; otherwise the API review may produce unsupported findings.
+  applied_files: []
+  superseded_by: null
+- finding_id: prompt-quality-gpt-5.5-adversarial-002
+  run_id: prompt-quality
+  source_model: gpt-5.5
+  source_round: round-1
+  source_raw_path: raw/gpt-5.5.round-1.txt
+  source_parsed_path: parsed/gpt-5.5.round-1.yaml
+  severity_original: WARN
+  severity_normalized: WARN
+  target_location: §3.1 Upstream Structured Summary, unresolved_or_design_deferred_items
+  plain_language_summary: The upstream summary cites the target artifact's own §4
+    as evidence.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: Intent-transfer background should distinguish upstream/user requirements
+    from the artifact under review. Citing the target's own section in an upstream
+    summary blurs target/source roles and may bias the reviewer to assume the target
+    already contains the required deferral instead of verifying the actual target
+    text.
+  applied_files: []
+  superseded_by: null
+- finding_id: prompt-quality-gpt-5.5-adversarial-003
+  run_id: prompt-quality
+  source_model: gpt-5.5
+  source_round: round-1
+  source_raw_path: raw/gpt-5.5.round-1.txt
+  source_parsed_path: parsed/gpt-5.5.round-1.yaml
+  severity_original: WARN
+  severity_normalized: WARN
+  target_location: §1 Review Task, §7 Required Checks, and §9 Finding Policy
+  plain_language_summary: The broad project-level transfer question is not fully mapped
+    into concrete checks or triage rules.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: The task asks the model to judge inheritance of project-level purpose,
+    boundaries, and forbidden actions from the upstream intent documents, but the
+    required checks mainly operationalize feature role, term-representation consistency,
+    algorithms, indexing, boundaries, and deferred items. Explicitly stating which
+    project-level non-goals and design principles are relevant, or that irrelevant
+    upstream constraints should only be checked for contradiction, would reduce ambiguity
+    and improve triage consistency.
+  applied_files: []
+  superseded_by: null
+- finding_id: prompt-quality-gemini-3.1-pro-preview-judgment-001
+  run_id: prompt-quality
+  source_model: gemini-3.1-pro-preview
+  source_round: round-1
+  source_raw_path: raw/gemini-3.1-pro-preview.round-1.txt
+  source_parsed_path: parsed/gemini-3.1-pro-preview.round-1.yaml
+  severity_original: WARN
+  severity_normalized: WARN
+  target_location: §6.4 stages/feature-partitioning/2026-07-02-proposal.md and §7
+    Required Checks (Check 5)
+  plain_language_summary: Incomplete source-material presentation regarding 'evolution-loop-and-selection'.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: Check 5 requires the model to verify that the target's scope-out
+    list excludes the elite-selection step owned by 'evolution-loop-and-selection'.
+    However, the excerpt of the feature-partitioning proposal provided in §6.4 omits
+    this feature entirely. Providing an incomplete excerpt while asking the model
+    to check boundaries for a feature not listed in that excerpt introduces avoidable
+    ambiguity, as the model may doubt the instruction or lack the necessary upstream
+    context.
+  applied_files: []
+  superseded_by: null

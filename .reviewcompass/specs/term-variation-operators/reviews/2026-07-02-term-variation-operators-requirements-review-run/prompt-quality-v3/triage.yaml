@@ -1,0 +1,74 @@
+run_id: prompt-quality-v3
+triage_status: draft
+generated_at: '2026-07-02T11:41:24.622082+00:00'
+decision_actor: null
+decision_actor_type: human
+items:
+- finding_id: prompt-quality-v3-gpt-5.5-adversarial-001
+  run_id: prompt-quality-v3
+  source_model: gpt-5.5
+  source_round: round-1
+  source_raw_path: raw/gpt-5.5.round-1.txt
+  source_parsed_path: parsed/gpt-5.5.round-1.yaml
+  severity_original: WARN
+  severity_normalized: WARN
+  target_location: §3.1 Upstream Structured Summary / responsibility_boundaries
+  plain_language_summary: Responsibility-boundary provenance is ambiguously described
+    as coming from the target document's own scope-out list.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: For a vertical intent-transfer review, upstream responsibility
+    boundaries must be the comparison standard and the target must be judged against
+    them. Although §7 check 5 enumerates concrete boundaries, calling the target's
+    own scope-out list the 'source of truth' could confuse the judge model and weaken
+    missing-boundary findings.
+  applied_files: []
+  superseded_by: null
+- finding_id: prompt-quality-v3-gpt-5.5-adversarial-002
+  run_id: prompt-quality-v3
+  source_model: gpt-5.5
+  source_round: round-1
+  source_raw_path: raw/gpt-5.5.round-1.txt
+  source_parsed_path: parsed/gpt-5.5.round-1.yaml
+  severity_original: WARN
+  severity_normalized: WARN
+  target_location: §1 Review Task and §7 Required Checks
+  plain_language_summary: Contradiction checks for some upstream NON_GOALS are stated
+    in prose but not represented as an explicit required check.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: The draft says the target should be checked for contradictions
+    with non-goals such as no CFD simulation and no LLM training, but §7 does not
+    include a dedicated check for those forbidden actions. The broad unsupported-addition
+    policy may catch this, but making the non-goal contradiction check explicit would
+    better satisfy vertical intent-transfer requirements.
+  applied_files: []
+  superseded_by: null
+- finding_id: prompt-quality-v3-gpt-5.5-adversarial-003
+  run_id: prompt-quality-v3
+  source_model: gpt-5.5
+  source_round: round-1
+  source_raw_path: raw/gpt-5.5.round-1.txt
+  source_parsed_path: parsed/gpt-5.5.round-1.yaml
+  severity_original: INFO
+  severity_normalized: INFO
+  target_location: §1 Review Task
+  plain_language_summary: The primary judgment sentence underemphasizes the feature-specific
+    user requirements later checked in §7.
+  final_label: null
+  decision_status: human_required
+  decision_actor: null
+  decision_actor_type: human
+  decision_at: null
+  decision_reason: The required checks preserve the Koga-rule, indexing-neutrality,
+    and deferred-decision requirements, so the prompt is usable. Mentioning those
+    feature-specific user requirements in the main review task would make the single
+    primary judgment question align more clearly with the full review scope.
+  applied_files: []
+  superseded_by: null

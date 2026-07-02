@@ -2,7 +2,7 @@
   "feature_name": "term-variation-operators",
   "language": "ja",
   "created_at": "2026-07-02T00:00:00+09:00",
-  "updated_at": "2026-07-02T03:00:00+09:00",
+  "updated_at": "2026-07-02T04:00:00+09:00",
   "workflow_state": {
     "intent": {
       "drafting": true,
@@ -17,7 +17,7 @@
     },
     "requirements": {
       "drafting": true,
-      "triad-review": false,
+      "triad-review": true,
       "review-wave": false,
       "alignment": false,
       "approval": false

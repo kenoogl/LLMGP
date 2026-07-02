@@ -1,0 +1,26 @@
+role: judgment
+provider: gemini-api
+model: gemini-3.1-pro-preview
+attempts: 1
+duration_seconds: 55.007
+findings:
+- severity: ERROR
+  target_location: Section 1 (Review Task) and Section 7 (Required Checks)
+  description: Contradiction regarding Check 4 and omission of the `d_dt` constraint
+    check.
+  rationale: Section 1 asserts that Check 4 operationalizes the project-level `d_dt`/steady-state
+    constraint. However, Section 7 defines Check 4 as checking for `indexing_neutrality`,
+    and the `d_dt` check is entirely missing from the required checks list. This omits
+    a stated review requirement and creates a logical contradiction that will confuse
+    the model, likely causing it to misapply the indexing check or miss the `d_dt`
+    constraint entirely.
+- severity: WARN
+  target_location: Section 3.1 (Upstream Structured Summary) and Section 8 (Out of
+    Scope)
+  description: Section 3.1 incorrectly references Section 8 as defining the feature's
+    responsibility boundaries.
+  rationale: Section 3.1 points to Section 8 for 'responsibility_boundaries'. However,
+    Section 8 defines the out-of-scope instructions for the LLM's review process itself
+    (e.g., not evaluating downstream design documents), not the operational boundaries
+    of the target feature. Conflating the target feature's scope with the review's
+    scope introduces avoidable ambiguity.
